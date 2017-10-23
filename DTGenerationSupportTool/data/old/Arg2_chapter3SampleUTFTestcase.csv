@@ -1,0 +1,61 @@
+引数の個数:2
+
+引数型:,第1引数:int,第2引数:nat,
+
+テストケースNo. 入力データ  --> 期待出力データ
+No.1,intMin-1,natMin-1,-->,Undefined Action
+No.2,intMin-1,natMin,-->,Undefined Action
+No.3,intMin-1,natMax,-->,Undefined Action
+No.4,intMin-1,natMax+1,-->,Undefined Action
+No.5,intMin-1,1,-->,Undefined Action
+No.6,intMin-1,-3,-->,Undefined Action
+No.7,intMin-1,-2,-->,Undefined Action
+No.8,intMin,natMin-1,-->,Undefined Action
+No.9,intMin,natMin,-->,aは10以下で、bは0以下です
+No.10,intMin,natMax,-->,aは10以下で、bは0より大きいです
+No.11,intMin,natMax+1,-->,Undefined Action
+No.12,intMin,1,-->,aは10以下で、bは0より大きいです
+No.13,intMin,-3,-->,aは10以下で、bは0以下です
+No.14,intMin,-2,-->,aは10以下で、bは0以下です
+No.15,intMax,natMin-1,-->,Undefined Action
+No.16,intMax,natMin,-->,aは20以上で、bは-3より大きいです
+No.17,intMax,natMax,-->,aは20以上で、bは-3より大きいです
+No.18,intMax,natMax+1,-->,Undefined Action
+No.19,intMax,1,-->,aは20以上で、bは-3より大きいです
+No.20,intMax,-3,-->,aは10より大きく、bは-3以下です
+No.21,intMax,-2,-->,aは20以上で、bは-3より大きいです
+No.22,intMax+1,natMin-1,-->,Undefined Action
+No.23,intMax+1,natMin,-->,Undefined Action
+No.24,intMax+1,natMax,-->,Undefined Action
+No.25,intMax+1,natMax+1,-->,Undefined Action
+No.26,intMax+1,1,-->,Undefined Action
+No.27,intMax+1,-3,-->,Undefined Action
+No.28,intMax+1,-2,-->,Undefined Action
+No.29,10,natMin-1,-->,Undefined Action
+No.30,10,natMin,-->,aは10以下で、bは0以下です
+No.31,10,natMax,-->,aは10以下で、bは0より大きいです
+No.32,10,natMax+1,-->,Undefined Action
+No.33,10,1,-->,aは10以下で、bは0より大きいです
+No.34,10,-3,-->,aは10以下で、bは0以下です
+No.35,10,-2,-->,aは10以下で、bは0以下です
+No.36,11,natMin-1,-->,Undefined Action
+No.37,11,natMin,-->,aは10より大きく20未満で、bは-3より大きいです
+No.38,11,natMax,-->,aは10より大きく20未満で、bは-3より大きいです
+No.39,11,natMax+1,-->,Undefined Action
+No.40,11,1,-->,aは10より大きく20未満で、bは-3より大きいです
+No.41,11,-3,-->,aは10より大きく、bは-3以下です
+No.42,11,-2,-->,aは10より大きく20未満で、bは-3より大きいです
+No.43,19,natMin-1,-->,Undefined Action
+No.44,19,natMin,-->,aは10より大きく20未満で、bは-3より大きいです
+No.45,19,natMax,-->,aは10より大きく20未満で、bは-3より大きいです
+No.46,19,natMax+1,-->,Undefined Action
+No.47,19,1,-->,aは10より大きく20未満で、bは-3より大きいです
+No.48,19,-3,-->,aは10より大きく、bは-3以下です
+No.49,19,-2,-->,aは10より大きく20未満で、bは-3より大きいです
+No.50,20,natMin-1,-->,Undefined Action
+No.51,20,natMin,-->,aは20以上で、bは-3より大きいです
+No.52,20,natMax,-->,aは20以上で、bは-3より大きいです
+No.53,20,natMax+1,-->,Undefined Action
+No.54,20,1,-->,aは20以上で、bは-3より大きいです
+No.55,20,-3,-->,aは10より大きく、bは-3以下です
+No.56,20,-2,-->,aは20以上で、bは-3より大きいです

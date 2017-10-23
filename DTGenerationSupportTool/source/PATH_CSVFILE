@@ -1,0 +1,12 @@
+クラス名 : MyersTriangle
+関数名 : 形状判断
+三角形(A,B,C)	T	T	T	T	T	T	T	T	F	F	F	F	F	F	F	F
+A=B	T	T	T	T	F	F	F	F	T	T	T	T	F	F	F	F
+B=C	T	T	F	F	T	T	F	F	T	T	F	F	T	T	F	F
+C=A	T	F	T	F	T	F	T	F	T	F	T	F	T	F	T	F
+"正三角形かつ二等辺三角形"	T	T	F	F	F	F	F	F	F	F	F	F	F	F	F	F
+"二等辺三角形"	F	F	T	T	T	T	T	F	F	F	F	F	F	F	F	F
+"不等辺三角形"	F	F	F	F	F	F	F	T	F	F	F	F	F	F	F	F
+"非三角形"	F	F	F	F	F	F	F	F	T	T	T	T	T	T	T	T
+
+

@@ -1,0 +1,21 @@
+class Sample
+
+functions
+
+SampleFunction : real -> seq of char
+    SampleFunction(a) ==
+       if(a < 5.3) then
+            if( a > 0.2 ) then
+                "0.2 < a < 5.3"
+            else
+                "a < 0.2"
+      elseif(12.5 <= a) then
+           if( a < 20.9 ) then
+         "12.5 <= a < 20.9"
+           else
+              "20.9 <= a"
+      else
+            "5.3<=a<12.5";
+
+end Sample
+

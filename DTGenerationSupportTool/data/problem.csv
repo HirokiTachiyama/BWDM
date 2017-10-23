@@ -1,0 +1,11 @@
+﻿"クラス名 : ProblemClass"
+"関数名 : problemFunction"
+,,"#1","#2","#3","#4"
+"Condition","a mod 4 = 0","T","T","F","F"
+"Condition","a > 92","T","F","T","F"
+"Action","""a mod 4 = 0 and a > 92""","T","F","F","F"
+"Action","""a mod 4 = 0 and !(a > 92)""","F","T","F","F"
+"Action","""!(a mod 4 = 0)""","F","F","T","T"
+
+
+

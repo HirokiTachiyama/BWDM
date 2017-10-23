@@ -1,0 +1,12 @@
+"クラス名 : Mod"
+"関数名 : public"
+,,"#1","#2","#3","#4"
+"Condition","a mod 3 = 0","T","T","F","F"
+"Condition","a mod 5 = 0","T","F","T","F"
+"Action","""FizzBuzz""","T","F","F","F"
+"Action","""Fizz""","F","T","F","F"
+"Action","""Buzz""","F","F","T","F"
+"Action","""数字""","F","F","F","T"
+
+
+

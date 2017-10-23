@@ -1,0 +1,11 @@
+"クラス名 : Mod"
+"関数名 : public"
+,,"#1","#2","#3","#4"
+"Condition","input mod 3 = 0","T","T","F","F"
+"Condition","input mod 7 = 0","T","F","T","F"
+"Action","""サァんwww""","T","T","F","F"
+"Action","""7(紳士)""","F","F","T","F"
+"Action","""数字(真顔)""","F","F","F","T"
+
+
+

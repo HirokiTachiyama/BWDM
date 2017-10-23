@@ -1,0 +1,1 @@
+class Modfunctionsstatic public mod関数 : nat -> seq of char  mod関数(input) ==    if (input mod 3 = 0) then        "サァんwww"            elseif (input mod 7 = 0) then        "7(紳士)"    else      "数字(真顔)";end Mod

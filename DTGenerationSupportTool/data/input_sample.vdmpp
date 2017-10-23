@@ -1,0 +1,21 @@
+class SampleClass
+
+functions
+
+sampleFunction : int*nat -> seq of char
+  sampleFunction(a, b) ==
+    if(a <= 10) then
+      if(-1 < a) then
+        "a <= 10 and -1 < a"
+      else if(b > 0) then
+ 	"a <= 10 and !(-1 > a) and b > 0"
+      else
+        "a <= 10 and !(-1 > a) and !(b > 0)"
+    else
+      if(b <= -3) then
+        "!(a <= 10) and b <= -3"
+      else if(a < 20) then
+    	"!(a <= 10) and !(b <= -3) and a < 20"
+      else
+        "!(a <= 10) and !(b <= -3) and !(a < 20)";
+ end SampleClass

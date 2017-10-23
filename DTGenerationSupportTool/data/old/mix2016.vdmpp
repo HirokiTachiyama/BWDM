@@ -1,0 +1,18 @@
+class MixSpecification
+
+functions
+
+  mix: nat * int -> seq of char
+    mix( arg1 , arg2 ) ==
+      if( arg1 mod 2 = 0) then
+        if (0 <= arg2 ) then
+          " arg1:even arg2:positive"
+        else
+          " arg1:even arg2:negative"
+      else
+        if( arg2 < 0) then
+          " arg1:odd arg2:negative"
+        else
+          " arg1:odd arg2:positive";
+
+end MixSpecification

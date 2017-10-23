@@ -1,0 +1,11 @@
+﻿"クラス名 : problem_example"
+"関数名 : problem_function"
+,,"#1","#2","#3","#4"
+"Condition","a mod 4 = 0","T","T","F","F"
+"Condition","a > 92","T","F","T","F"
+"Action","""9","T","F","F","F"
+"Action","""..","F","T","F","F"
+"Action","""others""","F","F","T","T"
+
+
+

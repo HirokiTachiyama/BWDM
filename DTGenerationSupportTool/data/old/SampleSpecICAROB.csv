@@ -1,0 +1,8 @@
+class name : Sample,,,,,
+function name : SampleFunction,,,,,
+,,#1,#2,#3,#4
+Condition,a < 5,T,T,F,F
+Condition,12 <= a,T,F,T,F
+Action,"""a < 5""",T,T,F,F
+Action,"""12 <= a""",F,F,T,F
+Action,"""5 <= a < 12""",F,F,F,T

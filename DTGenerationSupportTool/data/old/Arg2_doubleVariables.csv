@@ -1,0 +1,9 @@
+"クラス名 : Sample"
+"関数名 : SampleFunction"
+,,"#1","#2"
+"Condition","2 < 3","T","F"
+"Action","""a<b""","T","F"
+"Action","""a>=b""","F","T"
+
+
+

@@ -1,0 +1,11 @@
+"クラス名 : Mod"
+"関数名 : public"
+,,"#1","#2","#3","#4"
+"Condition","a mod 3 = 0","T","T","F","F"
+"Condition","b mod 5 = 0","T","F","T","F"
+"Action","""a3とb5""","T","F","F","F"
+"Action","""a3だけ""","F","T","F","F"
+"Action","""other""","F","F","T","T"
+
+
+

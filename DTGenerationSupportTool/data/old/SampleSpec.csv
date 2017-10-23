@@ -1,0 +1,11 @@
+﻿"クラス名 : Sample"
+"関数名 : SampleFunction"
+,,"#1","#2","#3","#4"
+"Condition","a < 5","T","T","F","F"
+"Condition","12 <= a","T","F","T","F"
+"Action","""aは5未満です""","T","T","F","F"
+"Action","""aは12以上です""","F","F","T","F"
+"Action","""aは5以上かつ12未満です""","F","F","F","T"
+
+
+

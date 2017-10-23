@@ -1,0 +1,12 @@
+﻿"クラス名 : FizzBuzz"
+"関数名 : FizzBuzz関数"
+,,"#1","#2","#3","#4"
+"Condition","入力 mod 3 = 0","T","T","F","F"
+"Condition","入力 mod 5 = 0","T","F","T","F"
+"Action","""FizzBuzz!""","T","F","F","F"
+"Action","""Fizz""","F","T","F","F"
+"Action","""Buzz""","F","F","T","F"
+"Action","""数字""","F","F","F","T"
+
+
+

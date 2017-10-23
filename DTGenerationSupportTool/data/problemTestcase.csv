@@ -1,0 +1,14 @@
+﻿引数の個数:1
+
+引数型:,第1引数:nat,
+
+テストケースNo. 入力データ  --> 期待出力データ
+No.1,natMin-1,-->,"Undefined Action"
+No.2,natMin,-->,"a mod 4 = 0 and !(a > 92)"
+No.3,natMax,-->,"!(a mod 4 = 0)"
+No.4,natMax+1,-->,"Undefined Action"
+No.5,4,-->,"a mod 4 = 0 and !(a > 92)"
+No.6,3,-->,"!(a mod 4 = 0)"
+No.7,5,-->,"!(a mod 4 = 0)"
+No.8,93,-->,"!(a mod 4 = 0)"
+No.9,92,-->,"a mod 4 = 0 and !(a > 92)"

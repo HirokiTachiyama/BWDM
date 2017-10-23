@@ -1,0 +1,1 @@
+class Modfunctionsstatic public mod関数 : nat -> seq of char  mod関数(input) ==    if (input mod 3 = 0) then      if(input mod 5 = 0) then        "FizzBuzz"      else        "3"    elseif(input mod 5 = 0) then      "5"    else      "other";end Mod

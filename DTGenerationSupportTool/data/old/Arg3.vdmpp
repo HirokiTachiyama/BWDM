@@ -1,0 +1,11 @@
+class Sample
+
+functions
+
+SampleFunction : int*nat*nat1 -> seq of char
+    SampleFunction(a, b, c) ==
+       if(a < 3) then
+      	   "a‚Í3–¢–ž"
+       else
+	   "a‚Í3ˆÈã"
+end Sample

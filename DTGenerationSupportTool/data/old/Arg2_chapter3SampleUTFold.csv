@@ -1,0 +1,14 @@
+クラス名 : Sample,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+関数名 : SampleFunction,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,#1,#2,#3,#4,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14,#15,#16,#17,#18,#19,#20,#21,#22,#23,#24,#25,#26,#27,#28,#29,#30,#31,#32
+Condition,a <= 10,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F
+Condition,- 1 < a,T,T,T,T,T,T,T,T,F,F,F,F,F,F,F,F,T,T,T,T,T,T,T,T,F,F,F,F,F,F,F,F
+Condition,b > 0,T,T,T,T,F,F,F,F,T,T,T,T,F,F,F,F,T,T,T,T,F,F,F,F,T,T,T,T,F,F,F,F
+Condition,b <= - 3,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F
+Condition,a < 20,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F,T,F
+Action,"""aは-1より大きく10以下です""",T,T,T,T,T,T,T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F
+Action,"""aは-1以下で、bは0より大きいです""",F,F,F,F,F,F,F,F,T,T,T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F
+Action,"""aは-1以下で、bは0以下です""",F,F,F,F,F,F,F,F,F,F,F,F,T,T,T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F
+Action,"""aは10より大きく、bは-3以下です""",F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,T,T,F,F,T,T,F,F,T,T,F,F,T,T,F,F
+Action,"""aは10より大きく20未満で、bは-3より大きいです""",F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,T,F,F,F,T,F,F,F,T,F,F,F,T,F
+Action,"""aは20以上で、bは-3より大きいです""",F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,T,F,F,F,T,F,F,F,T,F,F,F,T

@@ -1,0 +1,13 @@
+if
+amod3=0
+if
+amod5=0
+"FizzBuzz"
+else
+"Fizz"
+else
+if
+amod5=0
+"Buzz"
+else
+"数字"

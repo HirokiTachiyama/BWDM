@@ -1,0 +1,13 @@
+"クラス名 : MixSpecification"
+"関数名 : mix"
+,,"#1","#2","#3","#4","#5","#6","#7","#8"
+"Condition","arg1 mod 2 = 0","T","T","T","T","F","F","F","F"
+"Condition","0 <= arg2","T","T","F","F","T","T","F","F"
+"Condition","arg2 < 0","T","F","T","F","T","F","T","F"
+"Action",""" arg1:even arg2:positive""","T","T","F","F","F","F","F","F"
+"Action",""" arg1:even arg2:negative""","F","F","T","T","F","F","F","F"
+"Action",""" arg1:odd arg2:negative""","F","F","F","F","T","F","T","F"
+"Action",""" arg1:odd arg2:positive""","F","F","F","F","F","T","F","T"
+
+
+

@@ -1,0 +1,11 @@
+"クラス名 : hoge"
+"関数名 : func"
+,,"#1","#2","#3","#4"
+"Condition","a mod 5 = 0","T","T","F","F"
+"Condition","b <= 10","T","F","T","F"
+"Action","""a5 && b<=5""","T","F","F","F"
+"Action","""a5""","F","T","F","F"
+"Action","""other""","F","F","T","T"
+
+
+

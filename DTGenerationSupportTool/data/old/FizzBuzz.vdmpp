@@ -1,0 +1,1 @@
+class FizzBuzzfunctions  public static FizzBuzz関数 : nat -> seq of char  FizzBuzz関数(入力) ==    if 入力 mod 3 = 0  then      if 入力 mod 5 = 0 then        "FizzBuzz!"      else        "Fizz"    elseif 入力 mod 5 = 0 then      "Buzz"    else      "数字";end FizzBuzz

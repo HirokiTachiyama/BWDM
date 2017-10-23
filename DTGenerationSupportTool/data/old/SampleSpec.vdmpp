@@ -1,0 +1,13 @@
+class Sample
+
+functions
+
+SampleFunction : int -> seq of char
+    SampleFunction(a)==
+       if(a < 5) then
+         "aは5未満です"
+       else if(12 <= a) then
+         "aは12以上です"
+       else
+         "aは5以上かつ12未満です";
+end Sample

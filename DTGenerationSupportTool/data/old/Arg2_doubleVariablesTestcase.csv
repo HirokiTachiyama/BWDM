@@ -1,0 +1,21 @@
+引数の個数:2
+
+引数型:,第1引数:int,第2引数:nat,
+
+テストケースNo. 入力データ  --> 期待出力データ
+No.1,intMin-1,natMin-1,-->,Undefined Action
+No.2,intMin-1,0,-->,Undefined Action
+No.3,intMin-1,4294967295,-->,Undefined Action
+No.4,intMin-1,natMax+1,-->,Undefined Action
+No.5,-2147483648,natMin-1,-->,Undefined Action
+No.6,-2147483648,0,-->,a<b
+No.7,-2147483648,4294967295,-->,a<b
+No.8,-2147483648,natMax+1,-->,Undefined Action
+No.9,2147483647,natMin-1,-->,Undefined Action
+No.10,2147483647,0,-->,a<b
+No.11,2147483647,4294967295,-->,a<b
+No.12,2147483647,natMax+1,-->,Undefined Action
+No.13,intMax+1,natMin-1,-->,Undefined Action
+No.14,intMax+1,0,-->,Undefined Action
+No.15,intMax+1,4294967295,-->,Undefined Action
+No.16,intMax+1,natMax+1,-->,Undefined Action

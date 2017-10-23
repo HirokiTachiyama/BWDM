@@ -1,0 +1,14 @@
+引数の個数:1
+
+引数型:,第1引数:int,
+
+テストケースNo. 入力データ  --> 期待出力データ
+No.1,intMin-1,-->,Undefined Action
+No.2,intMin,-->,?
+No.3,intMax,-->,?
+No.4,intMax+1,-->,Undefined Action
+No.5,3,-->,15
+No.6,2,-->,?
+No.7,4,-->,?
+No.8,5,-->,?
+No.9,6,-->,15

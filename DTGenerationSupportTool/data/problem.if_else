@@ -1,0 +1,10 @@
+if
+amod4=0
+if
+a>92
+"a mod 4 = 0 and a > 92"
+else
+"a mod 4 = 0 and !(a > 92)"
+else
+"!(a mod 4 = 0)"
+;

@@ -1,0 +1,14 @@
+class Sample
+
+functions
+
+SampleFunction : int -> seq of char
+    SampleFunction(a)==
+       if(a < 5) then
+         "a < 5"
+       else if(12 <= a) then
+         "12 <= a"
+       else
+         "5 <= a < 12";
+
+end Sample

@@ -1,0 +1,47 @@
+引数の個数:2
+
+引数型:,第1引数:int,第2引数:nat,
+
+テストケースNo. 入力データ  --> 期待出力データ
+No.1,intMin-1,natMin-1,-->,Undefined Action
+No.2,intMin-1,natMin,-->,Undefined Action
+No.3,intMin-1,natMax,-->,Undefined Action
+No.4,intMin-1,natMax+1,-->,Undefined Action
+No.5,intMin-1,10,-->,Undefined Action
+No.6,intMin-1,11,-->,Undefined Action
+No.7,intMin,natMin-1,-->,Undefined Action
+No.8,intMin,natMin,-->,other
+No.9,intMin,natMax,-->,other
+No.10,intMin,natMax+1,-->,Undefined Action
+No.11,intMin,10,-->,other
+No.12,intMin,11,-->,other
+No.13,intMax,natMin-1,-->,Undefined Action
+No.14,intMax,natMin,-->,other
+No.15,intMax,natMax,-->,other
+No.16,intMax,natMax+1,-->,Undefined Action
+No.17,intMax,10,-->,other
+No.18,intMax,11,-->,other
+No.19,intMax+1,natMin-1,-->,Undefined Action
+No.20,intMax+1,natMin,-->,Undefined Action
+No.21,intMax+1,natMax,-->,Undefined Action
+No.22,intMax+1,natMax+1,-->,Undefined Action
+No.23,intMax+1,10,-->,Undefined Action
+No.24,intMax+1,11,-->,Undefined Action
+No.25,5,natMin-1,-->,Undefined Action
+No.26,5,natMin,-->,a5 && b<=5
+No.27,5,natMax,-->,a5
+No.28,5,natMax+1,-->,Undefined Action
+No.29,5,10,-->,a5 && b<=5
+No.30,5,11,-->,a5
+No.31,4,natMin-1,-->,Undefined Action
+No.32,4,natMin,-->,other
+No.33,4,natMax,-->,other
+No.34,4,natMax+1,-->,Undefined Action
+No.35,4,10,-->,other
+No.36,4,11,-->,other
+No.37,6,natMin-1,-->,Undefined Action
+No.38,6,natMin,-->,other
+No.39,6,natMax,-->,other
+No.40,6,natMax+1,-->,Undefined Action
+No.41,6,10,-->,other
+No.42,6,11,-->,other
