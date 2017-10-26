@@ -14,7 +14,6 @@ import java.io.File;
 public class functionDef {
     
     public static void main(String[] args) {
-
         
         LexTokenReader ltr = new LexTokenReader(new File("/Users/ht/Workspace/IntelliJ/BWDM/DTGenerationSupportTool/data/problem.vdmpp"), Dialect.VDM_PP);
         DefinitionReader dr = new DefinitionReader(ltr);
