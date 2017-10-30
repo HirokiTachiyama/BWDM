@@ -1,0 +1,15 @@
+class ProblemClass
+
+functions
+
+problemFunction : nat -> seq of char
+  problemFunction(a) ==
+    if(a mod 4 = 0) then
+      if(a > 92) then
+        "a mod 4 = 0 and a > 92"
+      else
+        "a mod 4 = 0 and !(a > 92)"
+    else
+      "!(a mod 4 = 0)";
+
+end ProblemClass

@@ -1,0 +1,16 @@
+class Nest
+
+functions
+
+public mod_first : int -> seq of char
+mod_first(a) ==
+  if ( a mod 5 = 0 ) then
+    if ( a > 92 ) then
+      "95, 100, 105, ..."
+    else
+      "..., 80, 85, 90"
+  else
+    "others";
+
+public inequaler_first : int -> seq of char
+ine

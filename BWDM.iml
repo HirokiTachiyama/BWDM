@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -20,5 +21,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="junit5-r5.0" level="project" />
   </component>
 </module>
