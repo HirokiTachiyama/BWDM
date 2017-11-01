@@ -44,8 +44,12 @@ public class ExtractInformation {
         vdmFileName = _vdmFileName;
         decisionTableFileName = _decisionTableFileName;
         directory = _directory;
+        
         vdmFIlePath = directory + _vdmFileName;
         decisionTableFilePath = directory + _decisionTableFileName;
+        
+        argumentTypes = new ArrayList<>();
+        formalArguments = new ArrayList<>();
         
         
         
