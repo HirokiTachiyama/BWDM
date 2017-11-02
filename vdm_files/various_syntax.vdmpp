@@ -20,6 +20,9 @@ problem_function : nat -> seq of char
 	    else
 	          "..., 84, 88, 92"
 	else
-	    "others";
+	    "others"
+
+	pre a > 5
+	post 10 > a;
 
 end problem_example
