@@ -1,0 +1,11 @@
+class Sample
+
+functions
+
+SampleFunction : int*nat -> seq of char
+    SampleFunction(a, b) ==
+       if(2 < 3) then
+      	   "a<b"
+       else
+	   "a>=b"
+end Sample

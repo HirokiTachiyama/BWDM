@@ -1,0 +1,22 @@
+class Sample
+
+functions
+
+SampleFunction : int*nat -> seq of char
+    SampleFunction(a, b) ==
+       if(a <= 10) then
+         if(-1 < a) then
+      	   "aは-1より大きく10以下です"
+    	 elseif(b > 0) then
+    	   "aは-1以下で、bは0より大きいです"
+	     else
+	       "aは-1以下で、bは0以下です"
+       else
+         if( b <= -3 ) then
+           "aは10より大きく、bは-3以下です"
+         elseif(a < 20) then
+           "aは10より大きく20未満で、bは-3より大きいです"
+	 else
+	   "aは20以上で、bは-3より大きいです";
+end Sample
+
