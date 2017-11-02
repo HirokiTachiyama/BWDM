@@ -20,7 +20,7 @@ public class ExtractInformation {
     //type info
     private static String argumentTypesJoined;
     private static ArrayList<String> argumentTypes;
-    private static int intNum, natNum, nat1Num;    
+    private static int intNum, natNum, nat1Num;
     
     //formal args info
     private static String formalArgumentsJoined;
@@ -51,7 +51,8 @@ public class ExtractInformation {
         argumentTypes = new ArrayList<>();
         formalArguments = new ArrayList<>();
         
-        
+
+
         
         
     }
