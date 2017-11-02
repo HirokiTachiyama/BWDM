@@ -22,14 +22,14 @@ public class functionDef {
     public static void main(String[] args) throws LexException, ParserException {
 
 
-        LexTokenReader ltr = new LexTokenReader(new File("./BWDM/vdm_files/Arg1.vdmpp"), Dialect.VDM_PP);
+        LexTokenReader ltr = new LexTokenReader(new File("./BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);
         DefinitionReader dr = new DefinitionReader(ltr);
         //TCExplicitFunctionDefinition tcefd = new TCExplicitFunctionDefinition(new TCAccessSpecifier());
 
         ASTTypeDefinition astTypeDefinition = dr.readTypeDefinition();
         ASTDefinitionList astDefinitionList = dr.readDefinitions();
 
-        TCTypeDefinition
+        TCTypeDefinition tcTypeDefinition = astTypeDefinition.
 
 
         
