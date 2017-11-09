@@ -1,4 +1,4 @@
-package com.company;
+package workspace;
 
 import com.fujitsu.vdmj.Settings;
 import com.fujitsu.vdmj.ast.definitions.*;
