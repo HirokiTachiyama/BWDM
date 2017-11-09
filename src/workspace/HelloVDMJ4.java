@@ -15,7 +15,7 @@ import com.fujitsu.vdmj.tc.types.TCType;
 
 import java.io.File;
 
-public class functionDef {
+public class HelloVDMJ4 {
 
     static TCIfExpression ifExpression;
 
@@ -24,7 +24,7 @@ public class functionDef {
         LexTokenReader ltr = new LexTokenReader(new File("BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);
         DefinitionReader dr = new DefinitionReader(ltr);
         ASTDefinitionList astDefinitionList = dr.readDefinitions();
-""
+
         astDefinitionList.forEach(_astDefinition -> {
             if(_astDefinition.kind().equals("explicit function")) {
                 TCExplicitFunctionDefinition tcExplicitFunctionDefinition = null;
@@ -46,6 +46,7 @@ public class functionDef {
 
     public static void main(String[] args) throws Exception {
 
+        System.out.println(System.getProperty(("java.library.path")));
 
         //ASTDefinitionListまでは同じ
         LexTokenReader ltr = new LexTokenReader(new File("./BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);
