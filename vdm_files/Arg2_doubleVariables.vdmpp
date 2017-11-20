@@ -7,5 +7,5 @@ SampleFunction : int*nat -> seq of char
        if(2 < 3) then
       	   "a<b"
        else
-	   "a>=b"
+	       "a>=b"
 end Sample

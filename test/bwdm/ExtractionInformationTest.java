@@ -10,10 +10,16 @@ import org.junit.jupiter.api.Test;
 
 
 public class ExtractionInformationTest {
+
+    /*
+     * fileNamesWithougFIleExtensionにVDMのファイル名を足していく
+     *
+     */
+
     
     private String[] fileNamesWithoutFileExtension  = {
             "Arg1", 
-            "Arg2"
+            "Arg2",
     };
     private String vdmppFilePath;
     private static String decisionTableFilePath;

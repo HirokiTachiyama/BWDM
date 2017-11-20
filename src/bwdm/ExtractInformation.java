@@ -1,5 +1,19 @@
 package bwdm;
 
+import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
+import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
+import com.fujitsu.vdmj.lex.Dialect;
+import com.fujitsu.vdmj.lex.LexException;
+import com.fujitsu.vdmj.lex.LexTokenReader;
+import com.fujitsu.vdmj.mapper.ClassMapper;
+import com.fujitsu.vdmj.syntax.DefinitionReader;
+import com.fujitsu.vdmj.syntax.ParserException;
+import com.fujitsu.vdmj.tc.definitions.TCDefinition;
+import com.fujitsu.vdmj.tc.definitions.TCDefinitionList;
+import com.fujitsu.vdmj.tc.definitions.TCExplicitFunctionDefinition;
+import com.fujitsu.vdmj.tc.expressions.TCExpression;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,16 +65,40 @@ public class ExtractInformation {
     private HashMap[][] preConditions; //条件文を演算子と両辺の3つに分解
 
 
-    public ExtractInformation(String _vdmFileName, String _decisionTableFileName, String _directory) {
+    public ExtractInformation(String _vdmFileName, String _decisionTableFileName, String _directory) throws LexException, ParserException {
 
         vdmFileName = _vdmFileName;
         decisionTableFileName = _decisionTableFileName;
         directory = _directory;
         
         vdmFIlePath = directory + _vdmFileName;
-        decisionTableFilePath = directory + _decisionTableFileName;
+        decisionTableFilePath = directory + _decisionTableFileName; //
+
+
+        LexTokenReader lexer = new LexTokenReader(new File(vdmFIlePath), Dialect.VDM_PP);
+        DefinitionReader parser = new DefinitionReader(lexer);
+        ASTDefinitionList astDefinitions = parser.readDefinitions();
+
+        astDefinitions.forEach((ASTDefinition astDefinition ) -> {
+            if(astDefinition.kind().equals("explicit function")) {
+                TCExplicitFunctionDefinition tcFunctionDefinition = null;
+                try{
+                    tcFunctionDefinition = ClassMapper.getInstance(TCDefinition.MAPPINGS).init().convert(astDefinition);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                TCExpression //if条件式を取り出す！
+            }
+
+
+        });
+
 
         argumentTypeBody = new String();
+
+
+
         argumentTypes = new ArrayList<>();
         parameters = new ArrayList<>();
         intNum = 0;
