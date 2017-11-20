@@ -88,7 +88,7 @@ public class ExtractInformation {
                     e.printStackTrace();
                 }
 
-                TCExpression //if条件式を取り出す！
+                TCExpression 
             }
 
 

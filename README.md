@@ -5,8 +5,8 @@
 
 ## Execution Environment, using Libraries,
 * OS : Any OS (Please prepare same enviroment.)
-* [Java](https://www.oracle.com/java/java9.html) : Execution Environment
-* [VDMJ4](https://github.com/nickbattle/vdmj.git) : Lexer and Parser
+* [Java9](https://www.oracle.com/java/java9.html) : Execution Environment
+* [VDMJ Ver.4](https://github.com/nickbattle/vdmj.git) : Lexer and Parser
 * [JUnit5](https://github.com/junit-team/junit5) : Unit Testing
 * [z3](https://github.com/Z3Prover/z3) : Theorem Prover
 
