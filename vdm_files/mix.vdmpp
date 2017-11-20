@@ -6,13 +6,13 @@ functions
     mix( arg1 , arg2 ) ==
       if( arg1 mod 2 = 0) then
         if (0 <= arg2 ) then
-          " arg1 :evenAarg2 : positive"
+          " arg1 :evenã€arg2 : positive"
         else
-          " arg1 : evenAarg2 : negative"
+          " arg1 : evenã€arg2 : negative"
       else
         if( arg2 < 0) then
-          " arg1 : oddAarg2 : negative"
+          " arg1 : oddã€arg2 : negative"
         else
-          " arg1 : oddAarg2 : positive";
+          " arg1 : oddã€arg2 : positive";
 
 end MixSpecification
