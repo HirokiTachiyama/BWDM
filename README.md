@@ -5,15 +5,10 @@
 
 ## Execution Environment, using Libraries,
 * OS : Any OS (Please prepare same enviroment.)
-* [java][] : Execution Environment
-* [vdmj][] : Lexer and Parser
-* [junit][] : Unit Testing
-* [z3][] : Theorem Prover
-
-[java](https://www.oracle.com/java/java9.html) : Execution Environment
-[vdmj]: https://github.com/nickbattle/vdmj.git "VDMJ Ver.4"
-[junit]: https://github.com/junit-team/junit5 "JUnit5"
-[z3]: https://github.com/Z3Prover/z3 "z3"
+* [Java](https://www.oracle.com/java/java9.html) : Execution Environment
+* [VDMJ4(https://github.com/nickbattle/vdmj.git) : Lexer and Parser
+* [JUnit5](https://github.com/junit-team/junit5) : Unit Testing
+* [z3](https://github.com/Z3Prover/z3) : Theorem Prover
 
 ## History
 * 20161110  create first repository.
