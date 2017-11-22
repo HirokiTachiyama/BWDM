@@ -8,10 +8,10 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class Test_ExtractionInformation {
+public class Test_InformationExtractor {
 
     private int testNumberCounter;
-    ExtractInformation ei;
+    InformationExtractor ei;
 
     /*
      * add vdm++ file names, and add testCasesNum.
@@ -46,7 +46,7 @@ public class Test_ExtractionInformation {
         expectedVdmFilePath = testCasesDirectory + expectedVdmFileName;
         expectedDecisionTableFilePath = testCasesDirectory + expectedDecisionTableFileName;
 
-        ei = new ExtractInformation(expectedVdmFileName, expectedDecisionTableFileName, testCasesDirectory);
+        ei = new InformationExtractor(expectedVdmFileName, expectedDecisionTableFileName, testCasesDirectory);
 
         System.out.println("Initialize Done");
     }
