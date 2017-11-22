@@ -46,7 +46,9 @@ public class HelloVDMJ4 {
 
     public static void main(String[] args) throws Exception {
 
+        System.setProperty("java.library.path", "/Users/ht/Workspace/Library/:" + System.getProperty("java.library.path"));
         System.out.println(System.getProperty(("java.library.path")));
+
 
         //ASTDefinitionListまでは同じ
         LexTokenReader ltr = new LexTokenReader(new File("./BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);

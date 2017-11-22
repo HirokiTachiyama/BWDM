@@ -17,14 +17,15 @@ public class JUnit5UserGuide {
     }
     
     @Test
+    @Disabled("SucceedingTest")
     void succeedingTest() {
         
     }
     
-    @Test
-    void failingTest() {
-        fail("failing test");
-    }
+    //@Test
+    //void failingTest() {
+    //    fail("failing test");
+    //}
     
     @Test
     @Disabled("for demonstration purposes")
