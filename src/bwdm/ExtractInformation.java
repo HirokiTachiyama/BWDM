@@ -31,7 +31,7 @@ public class ExtractInformation {
     //file name and path
     private String directory;
     private String vdmFileName;
-    private String vdmFIlePath;
+    private String vdmFilePath;
     private String decisionTableFileName;
     private String decisionTableFilePath;
     
@@ -71,11 +71,11 @@ public class ExtractInformation {
         decisionTableFileName = _decisionTableFileName;
         directory = _directory;
         
-        vdmFIlePath = directory + _vdmFileName;
+        vdmFilePath = directory + _vdmFileName;
         decisionTableFilePath = directory + _decisionTableFileName; //
 
 
-        LexTokenReader lexer = new LexTokenReader(new File(vdmFIlePath), Dialect.VDM_PP);
+        LexTokenReader lexer = new LexTokenReader(new File(vdmFilePath), Dialect.VDM_PP);
         DefinitionReader parser = new DefinitionReader(lexer);
         ASTDefinitionList astDefinitions = parser.readDefinitions();
 
@@ -88,7 +88,8 @@ public class ExtractInformation {
                     e.printStackTrace();
                 }
 
-                TCExpression 
+                TCExpression tcExpression = tcFunctionDefinition.body;
+                System.out.println(tcExpression);
             }
 
 
@@ -109,7 +110,7 @@ public class ExtractInformation {
 
         ifConditionBodies = new ArrayList[3];
         ifConditionBodiesInCameForward = new ArrayList<String>();
-        ifConditions = new HashMap[][];
+        //ifConditions = new HashMap[][];
 
 
 

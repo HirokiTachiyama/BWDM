@@ -6,7 +6,7 @@ public class BwdmMain {
     
     public static void main(String[] args) {
 
-        ExtractInformation extractInformation = new ExtractInformation("")
+        //ExtractInformation extractInformation = new ExtractInformation("");
         
         
     }
