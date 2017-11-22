@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 /* information what got from VDM++ specification file by syntax analyse with VDMJ */
 
-public class ExtractInformation {
+public class InformationExtractor {
 
     //argument  実引数
     //parameter 仮引数
@@ -64,7 +64,7 @@ public class ExtractInformation {
     private HashMap[][] preConditions; //条件文を演算子と両辺の3つに分解
 
 
-    public ExtractInformation(String _vdmFileName, String _decisionTableFileName, String _directory) throws LexException, ParserException {
+    public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory) throws LexException, ParserException {
 
         vdmFileName = _vdmFileName;
         decisionTableFileName = _decisionTableFileName;
