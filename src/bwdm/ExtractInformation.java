@@ -9,7 +9,6 @@ import com.fujitsu.vdmj.mapper.ClassMapper;
 import com.fujitsu.vdmj.syntax.DefinitionReader;
 import com.fujitsu.vdmj.syntax.ParserException;
 import com.fujitsu.vdmj.tc.definitions.TCDefinition;
-import com.fujitsu.vdmj.tc.definitions.TCDefinitionList;
 import com.fujitsu.vdmj.tc.definitions.TCExplicitFunctionDefinition;
 import com.fujitsu.vdmj.tc.expressions.TCExpression;
 
@@ -74,7 +73,6 @@ public class ExtractInformation {
         vdmFilePath = directory + _vdmFileName;
         decisionTableFilePath = directory + _decisionTableFileName; //
 
-
         LexTokenReader lexer = new LexTokenReader(new File(vdmFilePath), Dialect.VDM_PP);
         DefinitionReader parser = new DefinitionReader(lexer);
         ASTDefinitionList astDefinitions = parser.readDefinitions();
@@ -89,7 +87,7 @@ public class ExtractInformation {
                 }
 
                 TCExpression tcExpression = tcFunctionDefinition.body;
-                System.out.println(tcExpression);
+                //System.out.println(tcExpression);
             }
 
 
@@ -97,8 +95,6 @@ public class ExtractInformation {
 
 
         argumentTypeBody = new String();
-
-
 
         argumentTypes = new ArrayList<>();
         parameters = new ArrayList<>();
