@@ -87,24 +87,20 @@ public class InformationExtractor {
                 }
 
                 TCExpression tcExpression = tcFunctionDefinition.body;
-                //System.out.println(tcExpression);
+                System.out.println(tcExpression);
             }
-
-
         });
 
+        /* variableName = init; example */
+        argumentTypeBody = new String(); //int*nat*nat1
+        argumentTypes = new ArrayList<String>(); //int, nat, nat1
+        parameterBodies = new String(); //a*b*c
+        parameters = new ArrayList<String>(); //a, b, c
+        intNum = 0; //1
+        natNum = 0; //1
+        nat1Num = 0; //1
 
-        argumentTypeBody = new String();
-
-        argumentTypes = new ArrayList<>();
-        parameters = new ArrayList<>();
-        intNum = 0;
-        natNum = 0;
-        nat1Num = 0;
-        parameterBodies = new String();
-        parameters = new ArrayList<String>();
-
-        ifConditionBodies = new ArrayList[3];
+        ifConditionBodies = new ArrayList[3]; //
         ifConditionBodiesInCameForward = new ArrayList<String>();
         //ifConditions = new HashMap[][];
 

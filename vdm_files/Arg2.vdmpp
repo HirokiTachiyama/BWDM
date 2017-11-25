@@ -7,14 +7,14 @@ SampleFunction : int*nat -> seq of char
        if(a <= 10) then
          if(-1 < a) then
       	   "-1<a<=10"
-    	 elseif(b > 5) then
+    	 else if(b > 5) then
     	   "a<=-1 & 5<b"
 	 else
 	   "a<=-1 & b<=5"
        else
          if( b < -3 ) then
            "10<a & b<-3"
-         elseif(a < 20) then
+         else if(a < 20) then
            "10<a<20 & -3<=b"
 	 else
 	   "20<=a & -3<=b";

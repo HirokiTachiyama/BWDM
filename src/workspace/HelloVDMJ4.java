@@ -20,7 +20,7 @@ public class HelloVDMJ4 {
     static TCIfExpression ifExpression;
 
 
-    public static void extractInfomationByVDMJ() throws LexException, ParserException {
+    public static void extractInformationByVDMJ() throws LexException, ParserException {
         LexTokenReader ltr = new LexTokenReader(new File("BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);
         DefinitionReader dr = new DefinitionReader(ltr);
         ASTDefinitionList astDefinitionList = dr.readDefinitions();
@@ -34,8 +34,8 @@ public class HelloVDMJ4 {
                     e.printStackTrace();
                 }
 
+                /* koituga if-shiki no kouzou wo motteru! ashita ha kokokara!*/
                 ifExpression = (TCIfExpression) tcExplicitFunctionDefinition.body;
-
 
             }
         });
@@ -93,7 +93,7 @@ public class HelloVDMJ4 {
             }
         });
 
-        extractInfomationByVDMJ();
+        extractInformationByVDMJ();
 
 
     }
