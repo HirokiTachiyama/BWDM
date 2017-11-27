@@ -11,6 +11,8 @@ import com.fujitsu.vdmj.syntax.ParserException;
 import com.fujitsu.vdmj.tc.definitions.TCDefinition;
 import com.fujitsu.vdmj.tc.definitions.TCExplicitFunctionDefinition;
 import com.fujitsu.vdmj.tc.expressions.TCExpression;
+import com.fujitsu.vdmj.tc.types.TCFunctionType;
+import com.fujitsu.vdmj.tc.types.TCTypeList;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,15 +30,15 @@ public class InformationExtractor {
     //今回扱うのは仮引数
 
     //file name and path
-    private String directory;
-    private String vdmFileName;
-    private String vdmFilePath;
-    private String decisionTableFileName;
-    private String decisionTableFilePath;
+    private String directory;//ok
+    private String vdmFileName;//ok
+    private String vdmFilePath;//ok
+    private String decisionTableFileName;//ok
+    private String decisionTableFilePath;//ok
     
     //argument types information
-    private String argumentTypeBody; //int*nat*nat1
-    private ArrayList<String> argumentTypes; //int, nat, nat1
+    private String argumentTypeBody; //(int,nat,nat1) ok
+    private TCTypeList argumentTypes; //int, nat, nat1 ok
     private int intNum;
     private int natNum;
     private int nat1Num;
@@ -66,12 +68,27 @@ public class InformationExtractor {
 
     public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory) throws LexException, ParserException {
 
+        /* Initializing fields*/
         vdmFileName = _vdmFileName;
         decisionTableFileName = _decisionTableFileName;
         directory = _directory;
         
         vdmFilePath = directory + _vdmFileName;
         decisionTableFilePath = directory + _decisionTableFileName; //
+
+        /* variableName = init; example */
+        argumentTypeBody = new String(); //int*nat*nat1
+        argumentTypes = new TCTypeList(); //int, nat, nat1
+        parameterBodies = new String(); //a*b*c
+        parameters = new ArrayList<String>(); //a, b, c
+        intNum = 0; //1
+        natNum = 0; //1
+        nat1Num = 0; //1
+
+        ifConditionBodies = new ArrayList[3]; //
+        ifConditionBodiesInCameForward = new ArrayList<String>();
+        //ifConditions = new HashMap[][];
+        /*Done initializing fields*/
 
         LexTokenReader lexer = new LexTokenReader(new File(vdmFilePath), Dialect.VDM_PP);
         DefinitionReader parser = new DefinitionReader(lexer);
@@ -82,29 +99,18 @@ public class InformationExtractor {
                 TCExplicitFunctionDefinition tcFunctionDefinition = null;
                 try{
                     tcFunctionDefinition = ClassMapper.getInstance(TCDefinition.MAPPINGS).init().convert(astDefinition);
+                    //argumentTypeBody = tcFunctionDefinition.
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
+                TCFunctionType tcFunctionType = tcFunctionDefinition.type;
+                argumentTypes = tcFunctionType.parameters;
+                argumentTypeBody = argumentTypes.toString();
                 TCExpression tcExpression = tcFunctionDefinition.body;
-                System.out.println(tcExpression);
+                //System.out.println(tcExpression);
             }
         });
-
-        /* variableName = init; example */
-        argumentTypeBody = new String(); //int*nat*nat1
-        argumentTypes = new ArrayList<String>(); //int, nat, nat1
-        parameterBodies = new String(); //a*b*c
-        parameters = new ArrayList<String>(); //a, b, c
-        intNum = 0; //1
-        natNum = 0; //1
-        nat1Num = 0; //1
-
-        ifConditionBodies = new ArrayList[3]; //
-        ifConditionBodiesInCameForward = new ArrayList<String>();
-        //ifConditions = new HashMap[][];
-
-
 
     }
     

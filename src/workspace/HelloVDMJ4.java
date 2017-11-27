@@ -11,7 +11,9 @@ import com.fujitsu.vdmj.syntax.ParserException;
 import com.fujitsu.vdmj.tc.definitions.*;
 import com.fujitsu.vdmj.tc.expressions.TCExpression;
 import com.fujitsu.vdmj.tc.expressions.TCIfExpression;
+import com.fujitsu.vdmj.tc.types.TCFunctionType;
 import com.fujitsu.vdmj.tc.types.TCType;
+import com.fujitsu.vdmj.tc.types.TCTypeList;
 
 import java.io.File;
 
@@ -21,7 +23,7 @@ public class HelloVDMJ4 {
 
 
     public static void extractInformationByVDMJ() throws LexException, ParserException {
-        LexTokenReader ltr = new LexTokenReader(new File("BWDM/vdm_files/various_syntax.vdmpp"), Dialect.VDM_PP);
+        LexTokenReader ltr = new LexTokenReader(new File("BWDM/vdm_files/Arg2.vdmpp"), Dialect.VDM_PP);
         DefinitionReader dr = new DefinitionReader(ltr);
         ASTDefinitionList astDefinitionList = dr.readDefinitions();
 
@@ -36,6 +38,9 @@ public class HelloVDMJ4 {
 
                 /* koituga if-shiki no kouzou wo motteru! ashita ha kokokara!*/
                 ifExpression = (TCIfExpression) tcExplicitFunctionDefinition.body;
+                TCFunctionType tcft = tcExplicitFunctionDefinition.type;
+                TCTypeList tct = tcft.parameters;
+                System.out.println(tct.toString());
 
             }
         });
