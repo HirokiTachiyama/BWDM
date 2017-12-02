@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 /* information what got from VDM++ specification file by syntax analyse with VDMJ */
 
-public class InformationExtractor {
+class InformationExtractor {
 
     //argument  実引数
     //parameter 仮引数
