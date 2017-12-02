@@ -8,29 +8,43 @@ import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
+import static bwdm.Test_InformationExtractor.TestCase.Arg1;
+import static bwdm.Test_InformationExtractor.TestCase.Arg2_Japanese;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class Test_InformationExtractor {
-
     /*
-     * add vdm++ file names for the test case
+     * add vdm++ file names to enum TestCase
      */
+    public enum TestCase {
+        Arg1(0),
+		Arg2(1),
+		Arg2_Japanese(2);  /*add here*/
 
-    private enum TESTCASE {
-        Arg1, Arg2, Arg2_Japanese;
+        final public int SIZE = 3; /*add if test case is added*/
+        public int No_;
+		public TestCase getNext() {
+			switch (this) {
+				case Arg1: return Arg2;
+				case Arg2: return  Arg2_Japanese;
+				case Arg2_Japanese: return Arg1;
+				default: return Arg2_Japanese;
+			}
+		}
+
+        TestCase(int value) {
+        	this.No_ = value;
+		}
+		public int getTestCaseNo_() {
+			return this.No_;
+		}
     }
+    final int testCasesNum = 3;
+    private TestCase testCase = Arg1;
 
-    private String[] fileNamesWithoutFileExtension  = {
-            "Arg1",
-            "Arg2",
-            "Arg2_Japanese"
-    };
-    private final int testCasesNum = 3; //equals the number of vdm++ files
-    private int testCaseCounter;
-    private final int testsNum = 3; //the number of executed tests in this file
-    private int testCounter;
+
     InformationExtractor current_ie;
     InformationExtractor[] ies;
 
@@ -44,61 +58,47 @@ public class Test_InformationExtractor {
     @DisplayName("--- Start Unit Test for ExtractionInformation ---")
     void initAllTests() throws LexException, ParserException {
         testCasesDirectory = "./vdm_files/";
-        testCaseCounter = 0;
-        testCounter = 0;
 
         //preparing instances of InformationExtractor for each test case file.
-        ies = new InformationExtractor[testCasesNum];
-        for(int i=0; i<testCasesNum; i++) {
-            String tmpVdmFileName = fileNamesWithoutFileExtension[i] + ".vdmpp";
-            String tmpDecisionTableFileName = fileNamesWithoutFileExtension[i] + ".csv";
-            String tmpVdmFilePath = testCasesDirectory + tmpVdmFileName;
-            String tmpDecisionTableFilePath = testCasesDirectory + tmpDecisionTableFileName;
-            ies[i] = new InformationExtractor(tmpVdmFileName, tmpDecisionTableFileName, testCasesDirectory);
-        }
-    }
-    
-    @BeforeEach
+        ies = new InformationExtractor[testCase.SIZE];
+        TestCase[] testCases = TestCase.values();
+        for(int i=0; i<testCase.SIZE; i++) {
+        	String testCaseName = testCases[i].toString();
+			String tmpVdmFileName = testCaseName + ".vdmpp";
+			String tmpDecisionTableFileName = testCaseName + ".csv";
+			ies[i] = new InformationExtractor(tmpVdmFileName, tmpDecisionTableFileName, testCasesDirectory);
+		}
+
+	}
+	@BeforeEach
     @DisplayName("Test case initializing")
-    void changeCurrentIe() throws LexException, ParserException {
-        switch(testCaseCounter) {
-            case testsNum:
-                current_ie = ies[testCaseCounter];
-                testCaseCounter = 0;
-                break;
-            default:
-                current_ie = ies[testCaseCounter];
-                break;
-        }
+	void changeCurrentIe() throws LexException, ParserException {
 
-        expectedVdmFileName = fileNamesWithoutFileExtension[testCaseCounter] + ".vdmpp";
-        expectedDecisionTableFileName = fileNamesWithoutFileExtension[testCaseCounter] + ".csv";
-        expectedVdmFilePath = testCasesDirectory + expectedVdmFileName;
-        expectedDecisionTableFilePath = testCasesDirectory + expectedDecisionTableFileName;
+    	current_ie = ies[testCase.getTestCaseNo_()];
 
-        current_ie = new InformationExtractor(expectedVdmFileName, expectedDecisionTableFileName, testCasesDirectory);
+		expectedVdmFileName = testCase.toString() + ".vdmpp";
+		expectedDecisionTableFileName = testCase.toString() + ".csv";
+		expectedVdmFilePath = testCasesDirectory + expectedVdmFileName;
+		expectedDecisionTableFilePath = testCasesDirectory + expectedDecisionTableFileName;
 
-        System.out.print("Instance:" + fileNamesWithoutFileExtension[testCaseCounter]+" ");
-    }
+		System.out.print("Instance:" + testCase.toString()+" ");
+	}
 
-    @AfterEach
-    void addTestCaseCounter() {
-        switch (testCaseCounter) {
-            case testCasesNum - 1:
-                testCaseCounter = 0;
-                break;
-            default:
-                testCaseCounter++;
-                break;
-        }
-    }
+	@AfterEach
+	void addTestCaseCounter() {
+		testCase = testCase.getNext();
+	}
 
-    @RepeatedTest(testCasesNum)
-    void checkFileNameAndFilePath() throws NoSuchFieldException, IllegalAccessException {
-        System.out.println();
-        //getting private fields by Reflection
-        String actualDirectory = (String) Util.getPrivateField(current_ie, "directory");
-        String actualVdmFileName = (String) Util.getPrivateField(current_ie, "vdmFileName");
+
+
+
+
+	@RepeatedTest(testCasesNum)
+	void checkFileNameAndFilePath() throws NoSuchFieldException, IllegalAccessException {
+		System.out.println();
+		//getting private fields by Reflection
+		String actualDirectory = (String) Util.getPrivateField(current_ie, "directory");
+		String actualVdmFileName = (String) Util.getPrivateField(current_ie, "vdmFileName");
         String actualVdmFilePath = (String) Util.getPrivateField(current_ie, "vdmFilePath");
         String actualDecisionTableFileName = (String) Util.getPrivateField(current_ie, "decisionTableFileName");
         String actualDecisionTableFilePath = (String) Util.getPrivateField(current_ie, "decisionTableFilePath");
@@ -137,15 +137,15 @@ public class Test_InformationExtractor {
     @RepeatedTest(testCasesNum)
     void checkArgumentTypeBody() throws NoSuchFieldException, IllegalAccessException {
         String expected = null;
-        switch(testCaseCounter) {
-            case TESTCASE.Arg1: //Arg1.vdmpp
-                expected = "(nat)";
+        switch(testCase) {
+			case Arg1: //Arg1.vdmpp
+                expected = "[nat]";
                 break;
-            case 1: //Arg2.vdmpp
-                expected = "(int, nat)";
+			case Arg2: //Arg2.vdmpp
+                expected = "[int, nat]";
                 break;
-            case 2: //Arg2_Japanese.vdmpp
-                expected = "(int, nat)";
+			case Arg2_Japanese: //Arg2_Japanese.vdmpp
+                expected = "[int, nat]";
                 break;
         }
         String actual = (String) Util.getPrivateField(current_ie, "argumentTypeBody");
@@ -157,23 +157,23 @@ public class Test_InformationExtractor {
     @RepeatedTest(testCasesNum)
     void checkArgumentTypes() throws NoSuchFieldException, IllegalAccessException {
         ArrayList<String> tmp = new ArrayList<String>();
-        switch(testCaseCounter) {
-            case 0: //Arg1.vdmpp
+        switch(testCase) {
+			case Arg1: //Arg1.vdmpp
                 tmp.add("nat");
                 break;
-            case 1: //Arg2.vdmpp
+			case Arg2: //Arg2.vdmpp
                 tmp.add("int");
                 tmp.add("nat");
                 break;
-            case 2: //Arg2_Japanese.vdmpp
+			case Arg2_Japanese: //Arg2_Japanese.vdmpp
                 tmp.add("int");
                 tmp.add("nat");
                 break;
         }
         String[] expected = tmp.toArray(new String[tmp.size()]); //for checking by assertArrayEquals
 
-        tmp = new ArrayList<String>();
-        TCTypeList tmp2 = (TCTypeList) Util.getPrivateField(current_ie, "argumentTypes");
+        tmp = new ArrayList<String>(); //recycle
+        ArrayList tmp2 = (ArrayList) Util.getPrivateField(current_ie, "argumentTypes");
 
         //for using lambda expression
         //Because, I don't know why..., it needs to copy to new instance of variable.
@@ -200,18 +200,18 @@ public class Test_InformationExtractor {
         int actualNatNum;
         int actualNat1Num;
 
-        switch(testCaseCounter) {
-            case 0: //Arg1
+        switch(testCase) {
+			case Arg1:
                 expectedIntNum  = 0;
                 expectedNatNum  = 1;
                 expectedNat1Num = 0;
                 break;
-            case 1: //Arg2
+			case Arg2: //Arg2
                 expectedIntNum  = 1;
                 expectedNatNum  = 1;
                 expectedNat1Num = 0;
                 break;
-            case 2: //Arg2_Japanese
+			case Arg2_Japanese: //Arg2_Japanese
                 expectedIntNum  = 1;
                 expectedNatNum  = 1;
                 expectedNat1Num = 0;
