@@ -1,5 +1,6 @@
 package bwdm;
 
+import com.fujitsu.vdmj.Settings;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
 import com.fujitsu.vdmj.lex.Dialect;
@@ -17,6 +18,7 @@ import com.fujitsu.vdmj.tc.types.TCFunctionType;
 import com.fujitsu.vdmj.tc.types.TCTypeList;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -165,9 +167,72 @@ class InformationExtractor {
 		System.out.println(_tcExpression.toString());
 
 
+	}
 
+
+	/*
+ * if_elseファイル生成
+ * 最初のifから終わりのセミコロンまでを抜き出す
+ */
+	private static void if_elseFileGenerate() throws LexException, ParserException, IOException {
+		//analyzed file create
+		String ifElseFilePath = AnalyzedData.getVdmFilePath().replace(".vdmpp", "") + ".if_else";
+		FileWriter ifElseFile = null;
+		try {
+			ifElseFile = new FileWriter(new File(ifElseFilePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("making ifelse file failed, return.");
+			System.exit(1);
+		}
+
+		//if-else式の抜き取り
+		//if, condition, then, returnのみにする
+		//conditionは()の有る無しに関わらず全てのTokenをくっつけて、
+		//最後に()を消去する
+		LexTokenReader ltr = new LexTokenReader
+				(new File("KikkawaToolAndExampleData/data/problem.vdmpp"),
+						Settings.dialect);
+		String currentToken = ltr.getLast().toString();
+
+		//if開始箇所まで進める
+		while(!currentToken.equals("if")){
+			//System.out.println(ltr.getLast().toString());
+			currentToken = ltr.nextToken().toString();
+		}
+
+		String conditionTmp = ""; //条件式のtokenをくっつけていく
+		while(!currentToken.equals(";")){
+			switch (currentToken) {
+				case "if" :
+				case "else":
+					ifElseFile.write(currentToken + "\n");
+					break;
+
+				case "then":
+					ifElseFile.write(conditionTmp.replace("(", "").replace(")", "") + "\n");
+					conditionTmp = "";
+					break;
+				default:
+					if(currentToken.contains("\"")){ //もしも戻り値だったら
+						ifElseFile.write(currentToken + "\n");
+					} else {
+						conditionTmp = conditionTmp + currentToken;
+					}
+					break;
+			}
+			//System.out.println(currentToken);
+			currentToken = ltr.nextToken().toString();
+		}
+
+		ifElseFile.write(";");
+
+
+		ltr.close();
+		ifElseFile.close();
 
 	}
 
-    
+
+
 }
