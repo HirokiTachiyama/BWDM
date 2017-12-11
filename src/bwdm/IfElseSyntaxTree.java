@@ -8,34 +8,36 @@ import com.fujitsu.vdmj.syntax.ParserException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class IfElseSyntaxTree {
 
 	static IfNode root;
-	ArrayList<String> ifElses;
+	List<String> ifElses;
 	int count = 0;
 
 
 	public IfElseSyntaxTree(String _ifExpressionBoby) throws ParserException, LexException, IOException{
-		extractIfElse(_ifExpressionBoby);
+		shapeIfElseBody(_ifExpressionBoby);
 		generateIfElseSyntaxTree();
-		//recursivePrintNodes(root);
-		recursiveReturnNodeFind(root);
-		//printConditionAndBooleanTable();
-
+		//recursiveReturnNodeFind(root);
 	} //end constructor
 
 	/*
-     * 最初のifから終わりのセミコロンまで抜き出す
+     * shaping of passed ifElseBody
      */
-	private ArrayList extractIfElse(String _ifElseBody) throws LexException, ParserException, IOException {
+	private void shapeIfElseBody(String _ifElseBody) throws LexException, ParserException, IOException {
 		ifElses = new ArrayList<String>();
 		String ifElseBody = _ifElseBody;
-		System.out.println(ifElseBody);
 		ifElseBody = ifElseBody.replace("(", "").
-				                replace(")", "");
-		System.out.println(ifElseBody);
-		return ifElses;
+				                replace(")", "").
+				                replace("if", "if\n").
+				                replace("else", "else\n").
+				                replace("then", "").
+				                replace(" ", "");
+		ifElseBody = ifElseBody + "\n;";
+		ifElses = Arrays.asList(ifElseBody.split("\n"));
 	}
 
 
@@ -47,14 +49,14 @@ class IfElseSyntaxTree {
 		ifElses.get(count++); //最初はifなので無視
 		String currentLine = ifElses.get(count++); //これは最初のifの条件式
 		//多分
-		root = ifNodeGenerate(currentLine, null, 0);
+		root = generateIfNode(currentLine, null, 0);
 		root.isIfNode = true;
 		root.isTrueNode = null;
 		//これだけでおｋ
 	}
 
-	IfNode ifNodeGenerate(String _condition, IfNode _parentNode, int _nodeLevel)
-			throws IOException{
+	IfNode generateIfNode(String _condition, IfNode _parentNode, int _nodeLevel)
+			throws IOException {
 		IfNode ifNode = new IfNode(_condition, _nodeLevel);
 		ifNode.parentNode = _parentNode;
 		String nextToken;
@@ -63,9 +65,9 @@ class IfElseSyntaxTree {
 		nextToken = ifElses.get(count++);
 		if(nextToken.equals("if")){//ifの場合、次のtokenは条件式なので読み込む
 			String conditionStr = ifElses.get(count++);
-			ifNode.conditionTrueNode = ifNodeGenerate(conditionStr, ifNode, _nodeLevel+1);
+			ifNode.conditionTrueNode = generateIfNode(conditionStr, ifNode, _nodeLevel+1);
 		} else {//ifじゃない場合、nextTokenにはreturnが入っている
-			ifNode.conditionTrueNode = returnNodeGenerate(nextToken, ifNode, _nodeLevel+1);
+			ifNode.conditionTrueNode = generateReturnNode(nextToken, ifNode, _nodeLevel+1);
 		}
 		ifNode.conditionTrueNode.isTrueNode = true;
 
@@ -78,56 +80,24 @@ class IfElseSyntaxTree {
 		nextToken = ifElses.get(count++);
 		if(nextToken.equals("if")){//ifの場合、次のtokenは条件式なので読み込む
 			String conditionStr = ifElses.get(count++);
-			ifNode.conditionFalseNode = ifNodeGenerate(conditionStr, ifNode, _nodeLevel+1);
+			ifNode.conditionFalseNode = generateIfNode(conditionStr, ifNode, _nodeLevel+1);
 		} else {//ifじゃない場合、nextTokenにはreturnが入っている
-			ifNode.conditionFalseNode = returnNodeGenerate(nextToken, ifNode, _nodeLevel+1);
+			ifNode.conditionFalseNode = generateReturnNode(nextToken, ifNode, _nodeLevel+1);
 		}
 		ifNode.conditionFalseNode.isTrueNode = false;
 
 		return ifNode;
 	}
 
-	private static ReturnNode returnNodeGenerate(String returnStr,
-													Node parentNode,
-													int _nodeLevel){
+	private static ReturnNode generateReturnNode(String returnStr,
+												 Node parentNode,
+												 int _nodeLevel){
 		ReturnNode returnNode =  new ReturnNode(returnStr, _nodeLevel);
 		returnNode.parentNode = parentNode;
 		return returnNode;
 	}
 
 
-	//nodeを末端まで再帰的に情報を表示していく
-	private void recursivePrintNodes(Node node){
-		//親がいなければroot
-		if(node.parentNode == null){
-			System.out.println("root,      nodeID:" + node.ID +
-								" nodeLevel:" + node.nodeLevel +
-								" condition:"+node.getConditionOrReturnStr());
-			IfNode ifnode = (IfNode)node;
-			recursivePrintNodes(ifnode.conditionTrueNode);
-			recursivePrintNodes(ifnode.conditionFalseNode);
-			return ;
-		}
-
-		if(node.isIfNode) {
-			System.out.println("IfNode,    nodeID:" + node.ID +
-								" parentNodeID:" + node.parentNode.ID +
-								" nodeLevel:" + node.nodeLevel +
-								" boolean:" + node.isTrueNode +
-					            " condition:"+node.getConditionOrReturnStr());
-			IfNode ifnode = (IfNode)node;
-
-			recursivePrintNodes(ifnode.conditionTrueNode);
-			recursivePrintNodes(ifnode.conditionFalseNode);
-
-		} else {
-			System.out.println("ReturnNode, nodeID:" + node.ID +
-								" parentNodeID:" + node.parentNode.ID +
-								" nodeLevel:" + node.nodeLevel +
-								" boolean:" + node.isTrueNode +
-								" Return:"+node.getConditionOrReturnStr());
-		}
-	}
 
 
 	//ReturnNodeの発見とそこに至る為に必要な条件式とその真偽値
@@ -147,30 +117,47 @@ class IfElseSyntaxTree {
 				tmpNode = tmpNode.parentNode;
 				if(tmpNode.parentNode == null) break;
 			}
-			//System.out.println();
-
-			/*
-			for(ConditionAndBoolean cab : tmp){
-				System.out.println(cab.condition + cab.bool);
-			}
-			*/
-
-			//conditionAndBooleanTable.add(tmp);
-			//System.out.println("size"+conditionAndBooleanTable.size());
 		}
 
 	}
 
-	public static void printConditionAndBooleanTable() {
-		int i=0;
-		//for(ArrayList<ConditionAndBoolean> array: conditionAndBooleanTable){
-		//	System.out.print("No." + i + " " + "returnValue:" + returnValues.get(i));
-		//	for(ConditionAndBoolean cab : array){
-		//		System.out.print(cab.condition + "," + cab.bool + " ");
-		//	}
-		//	System.out.println();
-		//	i++;
-		//}
+	//nodeを末端まで再帰的に情報を表示していく
+	public void printNodesRecursively(Node node) {
+		//親がいなければroot
+		if(node.parentNode == null){
+			System.out.println(
+					"root,      nodeID:" + node.ID +
+					" nodeLevel:" + node.nodeLevel +
+					" condition:"+node.getConditionOrReturnStr());
+			IfNode ifnode = (IfNode)node;
+			printNodesRecursively(ifnode.conditionTrueNode);
+			printNodesRecursively(ifnode.conditionFalseNode);
+			return ;
+		}
+
+		if(node.isIfNode) {
+			System.out.println(
+					"IfNode,    nodeID:" + node.ID +
+					" parentNodeID:" + node.parentNode.ID +
+					" nodeLevel:" + node.nodeLevel +
+					" boolean:" + node.isTrueNode +
+					" condition:"+node.getConditionOrReturnStr());
+			IfNode ifnode = (IfNode)node;
+
+			printNodesRecursively(ifnode.conditionTrueNode);
+			printNodesRecursively(ifnode.conditionFalseNode);
+
+		} else {
+			System.out.println(
+					"ReturnNode, nodeID:" + node.ID +
+					" parentNodeID:" + node.parentNode.ID +
+					" nodeLevel:" + node.nodeLevel +
+					" boolean:" + node.isTrueNode +
+					" Return:"+node.getConditionOrReturnStr());
+		}
 	}
+
+	public IfNode getRoot() { return root; }
+
 
 }

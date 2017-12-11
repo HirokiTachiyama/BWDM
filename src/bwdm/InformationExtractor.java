@@ -1,6 +1,5 @@
 package bwdm;
 
-import com.fujitsu.vdmj.Settings;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
 import com.fujitsu.vdmj.lex.Dialect;
@@ -140,7 +139,10 @@ class InformationExtractor {
     			nat1Num++;
 			}
 		});
+		
 	}
+
+
 
 	private void parseIfConditions(TCExpression _tcExpression) {
 		System.out.println("parsing of if-expr.");

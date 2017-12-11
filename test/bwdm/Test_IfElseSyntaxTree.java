@@ -16,6 +16,8 @@ import org.junit.jupiter.api.*;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class Test_IfElseSyntaxTree {
 
 	@BeforeAll
@@ -41,6 +43,7 @@ public class Test_IfElseSyntaxTree {
 				IfElseSyntaxTree ifElseSyntaxTree = null;
 				try {
 					ifElseSyntaxTree = new IfElseSyntaxTree(ifExpressionBody);
+					ifElseSyntaxTree.printNodesRecursively(ifElseSyntaxTree.getRoot());
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
