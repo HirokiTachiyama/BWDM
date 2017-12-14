@@ -11,15 +11,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class IfElseSyntaxTree {
+class IfElseExprSyntaxTree {
 
 	static IfNode root;
 	List<String> ifElses;
 	int count = 0;
 
 
-	public IfElseSyntaxTree(String _ifExpressionBoby) throws ParserException, LexException, IOException{
-
+	public IfElseExprSyntaxTree(String _ifExpressionBoby) throws ParserException, LexException, IOException{
 		shapeIfElseBody(_ifExpressionBoby);
 		generateIfElseSyntaxTree();
 		//recursiveReturnNodeFind(root);

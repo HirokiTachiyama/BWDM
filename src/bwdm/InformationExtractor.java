@@ -48,12 +48,12 @@ class InformationExtractor {
     
     //parameter information
     private String parameterBodies; //a*b*c ok
-    private ArrayList<String> parameters; //a, b, c ok
+	private ArrayList<String> parameters; //a, b, c ok
 
 
 	private String ifExpressionBody; //ok
 
-	private IfElseSyntaxTree ifElseSyntaxTree; //ok
+	private IfElseExprSyntaxTree ifElseExprSyntaxTree; //ok
 
 
     private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions  ok
@@ -64,13 +64,15 @@ class InformationExtractor {
 
 	private ArrayList<String> ifConditionBodiesInCameForward; //ok
 
-    private HashMap ifConditions; //a parameter to ArrayList of HashMaps that is parsed each if-expression ok
+
+	private HashMap ifConditions; //a parameter to ArrayList of HashMaps that is parsed each if-expression ok
 	//ArrayList of HashMap of parsed if-expr.
 	//ifConditions.get("a") : 'HashMap of 4<a', 'HashMap of a<7'
 	//ifConditions.get("b") : 'HashMap of -3<b', 'HashMap of b>100', 'HashMap of 0<b'
 	//ifConditions.get("c") : 'HashMap of c<10', 'HashMap of 3<c', 'HashMap of c>-29'
 
-    public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory)
+
+	public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory)
 			throws LexException, ParserException {
 
         /* Initializing fields*/
@@ -117,7 +119,7 @@ class InformationExtractor {
 				countArgumentTypeNumByKind();
 
 				try {
-					ifElseSyntaxTree = new IfElseSyntaxTree(ifExpressionBody);
+					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
@@ -143,27 +145,17 @@ class InformationExtractor {
 
     }
 
-    private void countArgumentTypeNumByKind() {
-    	argumentTypes.forEach(at -> {
-    		if(at.toString().equals("int")) {
-    			intNum++;
-			}
-    		else if(at.toString().equals("nat")) {
-    			natNum++;
-			}
-			else if(at.toString().equals("nat1")) {
-    			nat1Num++;
-			}
+	private void countArgumentTypeNumByKind() {
+		argumentTypes.forEach(at -> {
+			if(at.toString().equals("int"))       intNum++;
+			else if(at.toString().equals("nat"))  natNum++;
+			else if(at.toString().equals("nat1")) nat1Num++;
 		});
-		
 	}
 
 
-
 	private void parseIfConditions() {
-		System.out.println("parsing of if-expr.");
-
-		List<String> ifElses = ifElseSyntaxTree.ifElses;
+		List<String> ifElses = ifElseExprSyntaxTree.ifElses;
 
 		for(int i=0; i<ifElses.size(); i++) {
 			String element = ifElses.get(i);
@@ -179,11 +171,11 @@ class InformationExtractor {
 			ifConditions.put(s, new ArrayList<HashMap<String, String>>());
 		});
 
-		//parsing of each if-condition
-		ifConditionBodiesInCameForward.forEach(c -> {
-			parameters.forEach(p -> {
-				if (c.contains(p)) {
-					parse(c, p);
+		//parsing of each if-condition, and store in ifConditions
+		ifConditionBodiesInCameForward.forEach(condition -> {
+			parameters.forEach(parameter -> {
+				if (condition.contains(parameter)) {
+					parse(condition, parameter);
 				}
 			});
 		});
@@ -221,5 +213,19 @@ class InformationExtractor {
 		else if (condition.indexOf("mod") != -1) return "mod";
 		else                                     return "other";
 	}
+
+	public IfElseExprSyntaxTree getIfElseExprSyntaxTree() {
+    	return ifElseExprSyntaxTree;
+	}
+	public ArrayList<String> getParameters() {
+		return parameters;
+	}
+	public ArrayList<String> getArgumentTypes() {
+		return argumentTypes;
+	}
+	public HashMap getIfConditions() {
+		return ifConditions;
+	}
+
 
 }

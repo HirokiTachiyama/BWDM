@@ -18,14 +18,13 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class Test_IfElseSyntaxTree {
+public class Test_IfElseExprSyntaxTree {
 
 	@BeforeAll
 	static void initAll()
 			throws LexException, ParserException {
 
-
-		LexTokenReader lexer = new LexTokenReader(new File("./vdm_files/Arg1.vdmpp"), Dialect.VDM_PP);
+		LexTokenReader lexer = new LexTokenReader(new File("./vdm_files/Arg2_Japanese.vdmpp"), Dialect.VDM_PP);
 		DefinitionReader parser = new DefinitionReader(lexer);
 		ASTDefinitionList astDefinitions = parser.readDefinitions();
 
@@ -40,10 +39,10 @@ public class Test_IfElseSyntaxTree {
 				TCExpression tcExpression = tcFunctionDefinition.body;
 				String ifExpressionBody = tcExpression.toString();
 
-				IfElseSyntaxTree ifElseSyntaxTree = null;
+				IfElseExprSyntaxTree ifElseExprSyntaxTree = null;
 				try {
-					ifElseSyntaxTree = new IfElseSyntaxTree(ifExpressionBody);
-					ifElseSyntaxTree.printNodesRecursively(ifElseSyntaxTree.getRoot());
+					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
+					ifElseExprSyntaxTree.printNodesRecursively(ifElseExprSyntaxTree.getRoot());
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
