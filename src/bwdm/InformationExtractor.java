@@ -19,10 +19,7 @@ import com.fujitsu.vdmj.tc.types.TCTypeList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 /* information what got from VDM++ specification file by syntax analyse with VDMJ */
@@ -199,7 +196,7 @@ class InformationExtractor {
 			hm.put("right", condition.substring(indexOfSymbol+3, indexOfEqual));
 			hm.put("surplus", condition.substring(indexOfEqual+1));
 		} else {
-			hm.put("right", condition.substring(indexOfSymbol + 1));
+			hm.put("right", condition.substring(indexOfSymbol + symbol.length()));
 		}
 
 		al = (ArrayList) ifConditions.get(parameter);
