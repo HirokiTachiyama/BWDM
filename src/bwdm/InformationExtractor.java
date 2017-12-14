@@ -11,14 +11,17 @@ import com.fujitsu.vdmj.syntax.ParserException;
 import com.fujitsu.vdmj.tc.definitions.TCDefinition;
 import com.fujitsu.vdmj.tc.definitions.TCExplicitFunctionDefinition;
 import com.fujitsu.vdmj.tc.expressions.TCExpression;
+import com.fujitsu.vdmj.tc.patterns.TCIdentifierPattern;
 import com.fujitsu.vdmj.tc.patterns.TCPatternList;
 import com.fujitsu.vdmj.tc.patterns.TCPatternListList;
 import com.fujitsu.vdmj.tc.types.TCFunctionType;
 import com.fujitsu.vdmj.tc.types.TCTypeList;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /* information what got from VDM++ specification file by syntax analyse with VDMJ */
@@ -48,31 +51,27 @@ class InformationExtractor {
     private ArrayList<String> parameters; //a, b, c ok
 
 
-	private String ifExpressionBody;
+	private String ifExpressionBody; //ok
 
-    private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions
+	private IfElseSyntaxTree ifElseSyntaxTree; //ok
+
+
+    private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions  ok
 	//ArrayList of ifConditions of each parameter
 	//ifConditionBodies.get("a") : "4<a", "a<7"
 	//ifConditionBodies.get("b") : "-3<b","b>100","0<b"
 	//ifConditionBodies.get("c") : "c<10","3<c","c>-29"
 
-	private ArrayList<String> ifConditionBodiesInCameForward;
+	private ArrayList<String> ifConditionBodiesInCameForward; //ok
 
-    private HashMap ifConditions; //a parameter to ArrayList of HashMaps that is parsed each if-expression
+    private HashMap ifConditions; //a parameter to ArrayList of HashMaps that is parsed each if-expression ok
 	//ArrayList of HashMap of parsed if-expr.
 	//ifConditions.get("a") : 'HashMap of 4<a', 'HashMap of a<7'
 	//ifConditions.get("b") : 'HashMap of -3<b', 'HashMap of b>100', 'HashMap of 0<b'
 	//ifConditions.get("c") : 'HashMap of c<10', 'HashMap of 3<c', 'HashMap of c>-29'
 
-    //事前条件文情報 中身はif条件文情報と似た感じ
-    @SuppressWarnings("rawtypes")
-    private ArrayList[] preConditionBodies; //事前条件文
-    /* 使う前に初期化してから使うこと！*/
-    @SuppressWarnings("rawtypes")
-    private HashMap[][] preConditions; //条件文を演算子と両辺の3つに分解
-
-
-    public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory) throws LexException, ParserException {
+    public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory)
+			throws LexException, ParserException {
 
         /* Initializing fields*/
         vdmFileName = _vdmFileName;
@@ -117,11 +116,28 @@ class InformationExtractor {
 
 				countArgumentTypeNumByKind();
 
+				try {
+					ifElseSyntaxTree = new IfElseSyntaxTree(ifExpressionBody);
+				} catch (ParserException e) {
+					e.printStackTrace();
+				} catch (LexException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
+				//parsing for parameters
 				TCPatternListList tcPatternListList = tcFunctionDefinition.paramPatternList;
 				TCPatternList tcPatternList = tcPatternListList.firstElement();
+				for(int i=0; i<tcPatternList.size(); i++) {
+					TCIdentifierPattern tcIdentifierPattern =
+							(TCIdentifierPattern) tcPatternList.get(i);
+					String parameter = tcIdentifierPattern.toString();
+					parameters.add(parameter);
+				}
 
-				parseIfConditions(tcExpression);
+				parseIfConditions();
+
 			}
         });
 
@@ -144,27 +160,66 @@ class InformationExtractor {
 
 
 
-	private void parseIfConditions(TCExpression _tcExpression) {
+	private void parseIfConditions() {
 		System.out.println("parsing of if-expr.");
-		//ifConditionBodies : HashMap< String, ArrayList<String> >
-		//ifConditionBodiesInCameForward : ArrayList<String, String>
-		//ifConditions : HashMap< String, ArrayList< HashMap< String, String > > >
 
-//		(if ((a < 5) and (-4 < a))
-//		then (if (a > 0)
-//		        then "0 < a < 5"
-//		      else "a < 0")
-//else (if (12 <= a)
-//			then (if (a < 20)
-//			then "12 <= a < 20"
-//else "20 <= a")
-//else "others"))
+		List<String> ifElses = ifElseSyntaxTree.ifElses;
 
-		System.out.println(_tcExpression.toString());
+		for(int i=0; i<ifElses.size(); i++) {
+			String element = ifElses.get(i);
+			if(element.equals("if")) {
+				element = ifElses.get(i + 1);
+				ifConditionBodiesInCameForward.add(element);
+			}
+		}
 
+		//initializing of collection instances of each parameter
+		parameters.forEach(s -> {
+			ifConditionBodies.put(s, new ArrayList<String>());
+			ifConditions.put(s, new ArrayList<HashMap<String, String>>());
+		});
 
+		//parsing of each if-condition
+		ifConditionBodiesInCameForward.forEach(c -> {
+			parameters.forEach(p -> {
+				if (c.contains(p)) {
+					parse(c, p);
+				}
+			});
+		});
 	}
 
+	private void parse(String condition, String parameter) {
+		ArrayList al = (ArrayList) ifConditionBodies.get(parameter);
+		al.add(condition);
 
+
+		String symbol = getSymbol(condition);
+		int indexOfSymbol = condition.indexOf(symbol);
+		HashMap hm = new HashMap<String, String>();
+		hm.put("left", condition.substring(0, indexOfSymbol));
+		hm.put("symbol", symbol);
+
+		//right-hand and surplus need branch depending on mod or other.
+		if(symbol.equals("mod")) {
+			int indexOfEqual = condition.indexOf("=");
+			hm.put("right", condition.substring(indexOfSymbol+3, indexOfEqual));
+			hm.put("surplus", condition.substring(indexOfEqual+1));
+		} else {
+			hm.put("right", condition.substring(indexOfSymbol + 1));
+		}
+
+		al = (ArrayList) ifConditions.get(parameter);
+		al.add(hm);
+    }
+
+	private String getSymbol(String condition) {
+		if      (condition.indexOf("<=") != -1)  return "<=";
+		else if (condition.indexOf(">=") != -1)  return ">=";
+		else if (condition.indexOf("<") != -1)   return "<";
+		else if (condition.indexOf(">") != -1)   return ">";
+		else if (condition.indexOf("mod") != -1) return "mod";
+		else                                     return "other";
+	}
 
 }
