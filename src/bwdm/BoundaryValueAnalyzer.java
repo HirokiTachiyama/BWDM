@@ -41,7 +41,6 @@ public class BoundaryValueAnalyzer {
 			}
 			System.out.println();
 		}
-
 	}
 
 	private void generateTypeBoundaryValue(InformationExtractor _information) {
@@ -157,15 +156,13 @@ public class BoundaryValueAnalyzer {
 
 	@SuppressWarnings("unchecked")
 	private void makeInputData(InformationExtractor _information){
-
-
 		int inputDataNumber = 1;
 
 		ArrayList parameters = _information.getParameters();
 		int[] nums = new int[parameters.size()];
 		int nums_count=0;
 		parameters.forEach(p -> {
-			 *= ((ArrayList)boundaryValueTable.get(p)).size();
+			nums_count *= ((ArrayList)boundaryValueTable.get(p)).size();
 		});
 
 		inputData = new long[inputDataNumber][];
