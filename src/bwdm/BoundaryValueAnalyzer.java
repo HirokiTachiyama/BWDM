@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import static bwdm.Util.isNumber;
+
 public class BoundaryValueAnalyzer {
 
 	final long intMax  = Integer.MAX_VALUE;
@@ -16,6 +18,9 @@ public class BoundaryValueAnalyzer {
 
 	private HashMap boundaryValueTable;
 	private long[][] inputData;
+
+	private ArrayList<HashMap<String, Long>> inputDataList;
+
 
 
 	public BoundaryValueAnalyzer(InformationExtractor _information) {
@@ -33,14 +38,14 @@ public class BoundaryValueAnalyzer {
 			bvs = ((ArrayList) bvs).stream().distinct().collect(Collectors.toList());
 		});
 
-		makeInputData(_information);
-		for(int i=0; i<inputData.length; i++) {
+		//makeInputData(_information);
+		/*for(int i=0; i<inputData.length; i++) {
 			System.out.print("i:"+i+" ->");
 			for(int j=0; j<inputData[0].length; j++) {
 				System.out.print(j+",");
 			}
 			System.out.println();
-		}
+		}*/
 	}
 
 	private void generateTypeBoundaryValue(InformationExtractor _information) {
@@ -144,13 +149,29 @@ public class BoundaryValueAnalyzer {
 		});
 	}
 
-	private boolean isNumber(String num) {
-		try {
-			Integer.parseInt(num);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
+	private void makeInputDataList(InformationExtractor _information) {
+		ArrayList parameters = _information.getParameters();
+
+		inputDataList = new ArrayList<HashMap<String, Long>>();
+
+		String first_prm = (String) parameters.get(0);
+		ArrayList first_bvs = (ArrayList) boundaryValueTable.get(first_prm);
+		for(int i=0; i<first_bvs.size(); i++) {
+			inputDataList.add(new HashMap<String, Long>());
+			inputDataList.get(i).put(first_prm, 0L);
 		}
+
+		parameters.forEach(p -> {
+
+			for(int i=0; i<bvs.size(); i++) {
+
+			}
+
+
+		//	inputDataList.add();
+		});
+
+		//inputDataList.add();
 	}
 
 
@@ -161,9 +182,9 @@ public class BoundaryValueAnalyzer {
 		ArrayList parameters = _information.getParameters();
 		int[] nums = new int[parameters.size()];
 		int nums_count=0;
-		parameters.forEach(p -> {
-			nums_count *= ((ArrayList)boundaryValueTable.get(p)).size();
-		});
+		//parameters.forEach(p -> {
+		//	nums_count *= ((ArrayList)boundaryValueTable.get(p)).size();
+		//});
 
 		inputData = new long[inputDataNumber][];
 		for(int i=0; i<inputDataNumber; i++) {
