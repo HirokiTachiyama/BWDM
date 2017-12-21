@@ -12,8 +12,7 @@ public class Test_BoundaryValueAnalyzer {
 	void test() throws LexException, ParserException {
 
 		InformationExtractor information = new InformationExtractor(
-				"Arg2_Japanese.vdmpp",
-				"Arg2_Japanse.vdmpp",
+				"Arg2_Japanese",
 				"./vdm_files/");
 		BoundaryValueAnalyzer bvAnalyzer = new BoundaryValueAnalyzer(information);
 

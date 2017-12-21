@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static bwdm.Test_InformationExtractor.TestCase.Arg1;
 import static bwdm.Test_InformationExtractor.TestCase.Arg2_Japanese;
+import static bwdm.Util.getPrivateField;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -51,8 +52,6 @@ public class Test_InformationExtractor {
     private String testCasesDirectory;
     private String expectedVdmFileName;
     private String expectedVdmFilePath;
-    private String expectedDecisionTableFileName;
-    private String expectedDecisionTableFilePath;
 
     @BeforeAll
     @DisplayName("--- Start Unit Test for ExtractionInformation ---")
@@ -65,8 +64,7 @@ public class Test_InformationExtractor {
         for(int i=0; i<testCase.SIZE; i++) {
         	String testCaseName = testCases[i].toString();
 			String tmpVdmFileName = testCaseName + ".vdmpp";
-			String tmpDecisionTableFileName = testCaseName + ".csv";
-			ies[i] = new InformationExtractor(tmpVdmFileName, tmpDecisionTableFileName, testCasesDirectory);
+			ies[i] = new InformationExtractor(tmpVdmFileName, testCasesDirectory);
 		}
 
 	}
@@ -77,9 +75,7 @@ public class Test_InformationExtractor {
     	current_ie = ies[testCase.getTestCaseNo_()];
 
 		expectedVdmFileName = testCase.toString() + ".vdmpp";
-		expectedDecisionTableFileName = testCase.toString() + ".csv";
 		expectedVdmFilePath = testCasesDirectory + expectedVdmFileName;
-		expectedDecisionTableFilePath = testCasesDirectory + expectedDecisionTableFileName;
 
 		System.out.print("Instance:" + testCase.toString()+" ");
 	}
@@ -91,17 +87,15 @@ public class Test_InformationExtractor {
 
 
 
-
-
 	@RepeatedTest(testCasesNum)
 	void checkFileNameAndFilePath() throws NoSuchFieldException, IllegalAccessException {
 		System.out.println();
 		//getting private fields by Reflection
-		String actualDirectory = (String) Util.getPrivateField(current_ie, "directory");
-		String actualVdmFileName = (String) Util.getPrivateField(current_ie, "vdmFileName");
-        String actualVdmFilePath = (String) Util.getPrivateField(current_ie, "vdmFilePath");
-        String actualDecisionTableFileName = (String) Util.getPrivateField(current_ie, "decisionTableFileName");
-        String actualDecisionTableFilePath = (String) Util.getPrivateField(current_ie, "decisionTableFilePath");
+		String actualDirectory = (String) getPrivateField(current_ie, "directory");
+		String actualVdmFileName = (String) getPrivateField(current_ie, "vdmFileName");
+        String actualVdmFilePath = (String) getPrivateField(current_ie, "vdmFilePath");
+        String actualDecisionTableFileName = (String) getPrivateField(current_ie, "decisionTableFileName");
+        String actualDecisionTableFilePath = (String) getPrivateField(current_ie, "decisionTableFilePath");
 
         assertEquals(testCasesDirectory, actualDirectory, Util.getMethodName());
         System.out.println("directory:");
@@ -115,13 +109,6 @@ public class Test_InformationExtractor {
         System.out.println("vdmFilePath");
         Util.printTestResults(expectedVdmFilePath, actualVdmFilePath);
 
-        assertEquals(expectedDecisionTableFileName, actualDecisionTableFileName, Util.getMethodName());
-        System.out.println("decisionTableFileName:");
-        Util.printTestResults(expectedDecisionTableFileName, actualDecisionTableFileName);
-
-        assertEquals(expectedDecisionTableFilePath, actualDecisionTableFilePath, Util.getMethodName());
-        System.out.println("decisionTableFilePath:");
-        Util.printTestResults(expectedDecisionTableFilePath, actualDecisionTableFilePath);
         System.out.println();
     }
 
@@ -148,7 +135,7 @@ public class Test_InformationExtractor {
                 expected = "[int, nat]";
                 break;
         }
-        String actual = (String) Util.getPrivateField(current_ie, "argumentTypeBody");
+        String actual = (String) getPrivateField(current_ie, "argumentTypeBody");
 
         assertEquals(expected, actual, Util.getMethodName());
         Util.printTestResults(expected, actual);
@@ -173,7 +160,7 @@ public class Test_InformationExtractor {
         String[] expected = tmp.toArray(new String[tmp.size()]); //for checking by assertArrayEquals
 
         tmp = new ArrayList<String>(); //recycle
-        ArrayList tmp2 = (ArrayList) Util.getPrivateField(current_ie, "argumentTypes");
+        ArrayList tmp2 = (ArrayList) getPrivateField(current_ie, "argumentTypes");
 
         //for using lambda expression
         //Because, I don't know why..., it needs to copy to new instance of variable.
@@ -223,9 +210,9 @@ public class Test_InformationExtractor {
                 break;
         }
 
-        actualIntNum = (int) Util.getPrivateField(current_ie, "intNum");
-        actualNatNum = (int) Util.getPrivateField(current_ie, "natNum");
-        actualNat1Num = (int) Util.getPrivateField(current_ie, "nat1Num");
+        actualIntNum = (int) getPrivateField(current_ie, "intNum");
+        actualNatNum = (int) getPrivateField(current_ie, "natNum");
+        actualNat1Num = (int) getPrivateField(current_ie, "nat1Num");
 
         assertEquals(expectedIntNum, actualIntNum, Util.getMethodName());
         Util.printTestResults(String.valueOf(expectedIntNum), String.valueOf(actualIntNum));

@@ -109,10 +109,8 @@ class IfElseExprSyntaxTree {
 		} else { //ReturnNodeならば
 			//returnValues.add(node.getConditionOrReturnStr());
 			//ArrayList<ConditionAndBoolean> tmp = new ArrayList<ConditionAndBoolean>();
-			//System.out.print(node.getConditionOrReturnStr() + " ");
 			Node tmpNode = node;
 			while(tmpNode != null){ //下のbreak文が
-				//System.out.print(tmpNode.parentNode.getConditionOrReturnStr() + tmpNode.isTrueNode + " ");
 				//tmp.add(new ConditionAndBoolean(tmpNode.parentNode.getConditionOrReturnStr(), tmpNode.isTrueNode));
 				tmpNode = tmpNode.parentNode;
 				if(tmpNode.parentNode == null) break;
@@ -158,6 +156,8 @@ class IfElseExprSyntaxTree {
 	}
 
 	public IfNode getRoot() { return root; }
-
+	public void printAll() {
+		printNodesRecursively(root);
+	}
 
 }

@@ -34,9 +34,7 @@ class InformationExtractor {
     private String directory;//ok
     private String vdmFileName;//ok
     private String vdmFilePath;//ok
-    private String decisionTableFileName;//ok
-    private String decisionTableFilePath;//ok
-    
+
     //argument types information
     private String argumentTypeBody; //(int,nat,nat1) ok
     private ArrayList<String> argumentTypes; //int, nat, nat1 ok
@@ -70,16 +68,14 @@ class InformationExtractor {
 	//ifConditions.get("c") : 'HashMap of c<10', 'HashMap of 3<c', 'HashMap of c>-29'
 
 
-	public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory)
+	public InformationExtractor(String _vdmFileName, String _directory)
 			throws LexException, ParserException {
 
         /* Initializing fields*/
         vdmFileName = _vdmFileName;
-        decisionTableFileName = _decisionTableFileName;
         directory = _directory;
         
         vdmFilePath = directory + vdmFileName;
-        decisionTableFilePath = directory + decisionTableFileName; //
 
 		/* variableName = init; example */
 		argumentTypeBody = new String(); //int*nat*nat1
