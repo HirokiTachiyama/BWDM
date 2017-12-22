@@ -34,9 +34,7 @@ class InformationExtractor {
     private String directory;//ok
     private String vdmFileName;//ok
     private String vdmFilePath;//ok
-    private String decisionTableFileName;//ok
-    private String decisionTableFilePath;//ok
-    
+
     //argument types information
     private String argumentTypeBody; //(int,nat,nat1) ok
     private ArrayList<String> argumentTypes; //int, nat, nat1 ok
@@ -51,7 +49,7 @@ class InformationExtractor {
 
 	private String ifExpressionBody; //ok
 
-	private IfElseExprSyntaxTree ifElseExprSyntaxTree; //ok
+	private IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator; //ok
 
 
     private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions  ok
@@ -70,16 +68,14 @@ class InformationExtractor {
 	//ifConditions.get("c") : 'HashMap of c<10', 'HashMap of 3<c', 'HashMap of c>-29'
 
 
-	public InformationExtractor(String _vdmFileName, String _decisionTableFileName, String _directory)
+	public InformationExtractor(String _vdmFileName, String _directory)
 			throws LexException, ParserException {
 
         /* Initializing fields*/
         vdmFileName = _vdmFileName;
-        decisionTableFileName = _decisionTableFileName;
         directory = _directory;
         
         vdmFilePath = directory + vdmFileName;
-        decisionTableFilePath = directory + decisionTableFileName; //
 
 		/* variableName = init; example */
 		argumentTypeBody = new String(); //int*nat*nat1
@@ -117,7 +113,7 @@ class InformationExtractor {
 				countArgumentTypeNumByKind();
 
 				try {
-					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
+					ifElseExprSyntaxTreeGenerator = new IfElseExprSyntaxTreeGenerator(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
@@ -153,7 +149,7 @@ class InformationExtractor {
 
 
 	private void parseIfConditions() {
-		List<String> ifElses = ifElseExprSyntaxTree.ifElses;
+		List<String> ifElses = ifElseExprSyntaxTreeGenerator.ifElses;
 
 		for(int i=0; i<ifElses.size(); i++) {
 			String element = ifElses.get(i);
@@ -212,8 +208,8 @@ class InformationExtractor {
 		else                                     return "other";
 	}
 
-	public IfElseExprSyntaxTree getIfElseExprSyntaxTree() {
-    	return ifElseExprSyntaxTree;
+	public IfElseExprSyntaxTreeGenerator getIfElseExprSyntaxTreeGenerator() {
+    	return ifElseExprSyntaxTreeGenerator;
 	}
 	public ArrayList<String> getParameters() {
 		return parameters;

@@ -18,7 +18,7 @@ public class Test_IfElseExprSolver {
 		condition.put("symbol", "<");
 		condition.put("right", "5");
 
-		solver = new IfElseExprSolver();
+		//solver = new IfElseExprSolver();
 
 	}
 

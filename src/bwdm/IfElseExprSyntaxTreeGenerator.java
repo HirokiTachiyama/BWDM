@@ -11,18 +11,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class IfElseExprSyntaxTree {
+class IfElseExprSyntaxTreeGenerator {
 
-	static IfNode root;
+	IfNode root;
 	List<String> ifElses;
 	int count = 0;
 
 
-	public IfElseExprSyntaxTree(String _ifExpressionBoby) throws ParserException, LexException, IOException{
+	public IfElseExprSyntaxTreeGenerator(String _ifExpressionBoby) throws ParserException, LexException, IOException{
 		shapeIfElseBody(_ifExpressionBoby);
 		generateIfElseSyntaxTree();
 		//recursiveReturnNodeFind(root);
 	} //end constructor
+
+	public IfNode getRoot() { return root; }
+	public void printAllNodes() { printNodesRecursively(root); }
 
 	/*
      * shaping of passed ifElseBody
@@ -42,7 +45,7 @@ class IfElseExprSyntaxTree {
 
 
 	//if式構文木を作る
-	void generateIfElseSyntaxTree()
+	private void generateIfElseSyntaxTree()
 			throws IOException {
 
 		//rootの準備
@@ -55,7 +58,7 @@ class IfElseExprSyntaxTree {
 		//これだけでおｋ
 	}
 
-	IfNode generateIfNode(String _condition, IfNode _parentNode, int _nodeLevel)
+	private IfNode generateIfNode(String _condition, IfNode _parentNode, int _nodeLevel)
 			throws IOException {
 		IfNode ifNode = new IfNode(_condition, _nodeLevel);
 		ifNode.parentNode = _parentNode;
@@ -89,7 +92,7 @@ class IfElseExprSyntaxTree {
 		return ifNode;
 	}
 
-	private static ReturnNode generateReturnNode(String returnStr,
+	private ReturnNode generateReturnNode(String returnStr,
 												 Node parentNode,
 												 int _nodeLevel){
 		ReturnNode returnNode =  new ReturnNode(returnStr, _nodeLevel);
@@ -98,10 +101,8 @@ class IfElseExprSyntaxTree {
 	}
 
 
-
-
 	//ReturnNodeの発見とそこに至る為に必要な条件式とその真偽値
-	public static void recursiveReturnNodeFind(Node node) {
+	private void recursiveReturnNodeFind(Node node) {
 		if(node.isIfNode) {
 			IfNode ifNode = (IfNode)node;
 			recursiveReturnNodeFind(ifNode.conditionTrueNode);
@@ -109,20 +110,17 @@ class IfElseExprSyntaxTree {
 		} else { //ReturnNodeならば
 			//returnValues.add(node.getConditionOrReturnStr());
 			//ArrayList<ConditionAndBoolean> tmp = new ArrayList<ConditionAndBoolean>();
-			//System.out.print(node.getConditionOrReturnStr() + " ");
 			Node tmpNode = node;
 			while(tmpNode != null){ //下のbreak文が
-				//System.out.print(tmpNode.parentNode.getConditionOrReturnStr() + tmpNode.isTrueNode + " ");
 				//tmp.add(new ConditionAndBoolean(tmpNode.parentNode.getConditionOrReturnStr(), tmpNode.isTrueNode));
 				tmpNode = tmpNode.parentNode;
 				if(tmpNode.parentNode == null) break;
 			}
 		}
-
 	}
 
 	//nodeを末端まで再帰的に情報を表示していく
-	public void printNodesRecursively(Node node) {
+	private void printNodesRecursively(Node node) {
 		//親がいなければroot
 		if(node.parentNode == null){
 			System.out.println(
@@ -156,8 +154,6 @@ class IfElseExprSyntaxTree {
 					" Return:"+node.getConditionOrReturnStr());
 		}
 	}
-
-	public IfNode getRoot() { return root; }
 
 
 }

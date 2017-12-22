@@ -1,6 +1,5 @@
 package bwdm;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -16,37 +15,43 @@ public class BoundaryValueAnalyzer {
 	final long nat1Max = natMax + 1;
 	final long nat1Min = 1;
 
-	private HashMap boundaryValueTable;
-	private long[][] inputData;
-
+	private HashMap boundaryValueList;
 	private ArrayList<HashMap<String, Long>> inputDataList;
-
 
 
 	public BoundaryValueAnalyzer(InformationExtractor _information) {
 		//generation of instance of each parameter
-		boundaryValueTable = new HashMap<String, ArrayList<Integer>>();
+		boundaryValueList = new HashMap<String, ArrayList<Integer>>();
 		_information.getParameters().forEach(p -> {
-			boundaryValueTable.put(p, new ArrayList<Integer>());
+			boundaryValueList.put(p, new ArrayList<Integer>());
 		});
 
 		generateTypeBoundaryValue(_information);
 		generateIfConditionalBoundaryValue(_information);
 
 		//remove overlapped values
-		boundaryValueTable.forEach((k, bvs) -> {
-			bvs = ((ArrayList) bvs).stream().distinct().collect(Collectors.toList());
-		});
+		ArrayList<String> parameters = _information.getParameters();
+		for(int i = 0; i < boundaryValueList.size(); i++) {
+			String parameter = parameters.get(i);
+			ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
+			bvs = (ArrayList) bvs.stream().distinct().collect(Collectors.toList());
+			boundaryValueList.put(parameter, bvs);
+		}
 
-		//makeInputData(_information);
-		/*for(int i=0; i<inputData.length; i++) {
-			System.out.print("i:"+i+" ->");
-			for(int j=0; j<inputData[0].length; j++) {
-				System.out.print(j+",");
-			}
-			System.out.println();
-		}*/
+		makeInputDataList(_information);
 	}
+
+	public HashMap getBoundaryValueList() { return boundaryValueList; }
+	public ArrayList<HashMap<String, Long>> getInputDataList() { return inputDataList; }
+	public void printAllInputValue() {
+		inputDataList.forEach(inputData -> {
+			inputData.forEach((k, v) -> {
+				System.out.print(v + " ");
+			});
+			System.out.println();
+		});
+	}
+
 
 	private void generateTypeBoundaryValue(InformationExtractor _information) {
 		ArrayList<String> parameters = _information.getParameters();
@@ -55,7 +60,7 @@ public class BoundaryValueAnalyzer {
 		for(int i=0; i<argumentTypes.size(); i++) {
 			String parameter = parameters.get(i);
 			String argumentType = argumentTypes.get(i);
-			ArrayList bvs = (ArrayList) boundaryValueTable.get(parameter);
+			ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
 			switch (argumentType) {
 				case "int":
 					bvs.add(intMax);
@@ -85,7 +90,7 @@ public class BoundaryValueAnalyzer {
 				String symbol = ((HashMap<String, String>) condition).get("symbol");
 				String right  = ((HashMap<String, String>) condition).get("right");
 				System.out.println("cond"+left+symbol+right+"tion");
-				ArrayList bvs = (ArrayList) boundaryValueTable.get(parameter);
+				ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
 
 				long bv1=0, bv2=0, value=0;
 				if(isNumber(left)) {
@@ -151,98 +156,51 @@ public class BoundaryValueAnalyzer {
 
 	private void makeInputDataList(InformationExtractor _information) {
 		ArrayList parameters = _information.getParameters();
-
 		inputDataList = new ArrayList<HashMap<String, Long>>();
 
+		//最初の一つ目
 		String first_prm = (String) parameters.get(0);
-		ArrayList first_bvs = (ArrayList) boundaryValueTable.get(first_prm);
+		ArrayList<Integer> first_bvs = (ArrayList) boundaryValueList.get(first_prm);
 		for(int i=0; i<first_bvs.size(); i++) {
-			inputDataList.add(new HashMap<String, Long>());
-			inputDataList.get(i).put(first_prm, 0L);
+			inputDataList.add(new HashMap());
+			HashMap hm = inputDataList.get(i);
+			hm.put(first_prm, first_bvs.get(i));
 		}
 
+		//それ以降
 		parameters.forEach(p -> {
+			if( !p.equals(first_prm) ) { //最初の要素以外に対して
+				ArrayList current_bvs = (ArrayList) boundaryValueList.get(p);
 
-			for(int i=0; i<bvs.size(); i++) {
+				//inputDataListの第一引数のみを登録した状態
+				ArrayList inputDataListInitialState = (ArrayList) inputDataList.clone();
 
-			}
+				for(int i=0; i<current_bvs.size() - 1; i++) {
+					ArrayList inputDataListTmpTmp = new ArrayList<Long>();
+					inputDataListInitialState.forEach(inputDataOriginal -> {
+						//inputDataを複製
+						HashMap inputData = new HashMap<String, Long>();
+						((HashMap) inputDataOriginal).forEach((k, v) -> {
+							inputData.put(k, v);
+						});
 
-
-		//	inputDataList.add();
-		});
-
-		//inputDataList.add();
-	}
-
-
-	@SuppressWarnings("unchecked")
-	private void makeInputData(InformationExtractor _information){
-		int inputDataNumber = 1;
-
-		ArrayList parameters = _information.getParameters();
-		int[] nums = new int[parameters.size()];
-		int nums_count=0;
-		//parameters.forEach(p -> {
-		//	nums_count *= ((ArrayList)boundaryValueTable.get(p)).size();
-		//});
-
-		inputData = new long[inputDataNumber][];
-		for(int i=0; i<inputDataNumber; i++) {
-			inputData[i] = new long[_information.getParameters().size()];
-		}
-
-		parameters = _information.getParameters();
-		String[] args = new String[parameters.size()];
-		for(int i=0; i<args.length; i++) {
-			args[i] = (String) parameters.get(i);
-		}
-
-		switch(_information.getParameters().size()){
-			case 0:
-				System.out.println("no parameter, exit.");
-				System.exit(-1);
-				break;
-			case 1:
-				nTimesInsert(
-						1,
-						0,
-						0,
-						(ArrayList) boundaryValueTable.get(args[0]));
-				break;
-			case 2:
-				nTimesInsert(
-						((ArrayList) boundaryValueTable.get(args[1])).size(),
-						0,
-						0,
-						(ArrayList) boundaryValueTable.get(args[0]));
-				for(int i=0; i<inputData.length; i+=((ArrayList)boundaryValueTable.get(1)).size()){
-					nTimesInsert(
-							1,
-							i,
-							1,
-							(ArrayList) boundaryValueTable.get(args[1]));
+						inputDataListTmpTmp.add(inputData);
+					});
+					inputDataList.addAll(inputDataListTmpTmp);
 				}
-				break;
-			default:
-				System.out.println("Invalid arguments");
-				System.exit(-1);
-				break;
-		}
+				int repeatTimesOfInsert = 0;
+				for(int j=0; j<current_bvs.size(); j++) {
+					long currentBv = (long) current_bvs.get(j);
+					int offset = repeatTimesOfInsert*inputDataListInitialState.size();
+					for(int k=0; k<inputDataListInitialState.size(); k++) {
+						HashMap inputData = inputDataList.get(k + offset);
+						inputData.put(p, currentBv);
+					}
+					repeatTimesOfInsert++;
+				}
 
-	}
-
-	//与えられたArrayList<String>を一つの要素につきtimes回ずつ
-	//inputDataのlineNumber行目columnNumber列目, lineNumber+1行目columnNumber列目,,,と入れていく
-	private void nTimesInsert(int times, int lineNumber, int columnNumber, ArrayList _bv){
-		int currentLineNumber=0;
-		for(int i=0; i<_bv.size(); i++){ //argsの要素一つ一つに対して
-			for(int j=0; j<times; j++){
-				inputData[lineNumber+currentLineNumber][columnNumber] = (long)_bv.get(i);
-				currentLineNumber++;
 			}
-		}
-	}
-
-
+		});
+	} //end makeInputDatList
 
 }
