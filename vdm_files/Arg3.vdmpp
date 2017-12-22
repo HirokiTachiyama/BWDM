@@ -5,7 +5,11 @@ functions
 SampleFunction : int*nat*nat1 -> seq of char
     SampleFunction(a, b, c) ==
        if(a < 3) then
-      	   "aは3未満"
-       else
-	   "aは3以上"
+      	 "aは3未満"
+       else if(b < 1) then
+         "aは3以上かつbは1未満"
+	   else if(c < 100) then
+	     "aは3以上かつbは1以上かつcは100未満"
+	   else
+	     "aは3以上かつbは1以上かつcは100以上"
 end Sample

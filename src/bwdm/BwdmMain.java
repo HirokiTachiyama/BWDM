@@ -11,22 +11,18 @@ public class BwdmMain {
 	public static void main(String[] args) throws LexException, ParserException {
 
 		InformationExtractor extractInformation = new InformationExtractor(args[0], args[1]);
-		IfElseExprSyntaxTree ifElseExprSyntaxTree = extractInformation.getIfElseExprSyntaxTree();
-		ifElseExprSyntaxTree.printAll();
+		IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator = extractInformation.getIfElseExprSyntaxTreeGenerator();
+		ifElseExprSyntaxTreeGenerator.printAllNodes();
 
 		BoundaryValueAnalyzer boundaryValueAnalyzer = new BoundaryValueAnalyzer(extractInformation);
+		boundaryValueAnalyzer.printAllInputValue();
 
 		ArrayList<String> parameters
 				= extractInformation.getParameters();
 		ArrayList<HashMap<String, Long>> inputDataList
 				= boundaryValueAnalyzer.getInputDataList();
 
-		inputDataList.forEach(inputData -> {
-			parameters.forEach(p -> {
-				System.out.print(inputData.get(p) + ", ");
-			});
-			System.out.println();
-		});
+
 
 	}
 }

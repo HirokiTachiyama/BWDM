@@ -49,7 +49,7 @@ class InformationExtractor {
 
 	private String ifExpressionBody; //ok
 
-	private IfElseExprSyntaxTree ifElseExprSyntaxTree; //ok
+	private IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator; //ok
 
 
     private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions  ok
@@ -113,7 +113,7 @@ class InformationExtractor {
 				countArgumentTypeNumByKind();
 
 				try {
-					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
+					ifElseExprSyntaxTreeGenerator = new IfElseExprSyntaxTreeGenerator(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
@@ -149,7 +149,7 @@ class InformationExtractor {
 
 
 	private void parseIfConditions() {
-		List<String> ifElses = ifElseExprSyntaxTree.ifElses;
+		List<String> ifElses = ifElseExprSyntaxTreeGenerator.ifElses;
 
 		for(int i=0; i<ifElses.size(); i++) {
 			String element = ifElses.get(i);
@@ -208,8 +208,8 @@ class InformationExtractor {
 		else                                     return "other";
 	}
 
-	public IfElseExprSyntaxTree getIfElseExprSyntaxTree() {
-    	return ifElseExprSyntaxTree;
+	public IfElseExprSyntaxTreeGenerator getIfElseExprSyntaxTreeGenerator() {
+    	return ifElseExprSyntaxTreeGenerator;
 	}
 	public ArrayList<String> getParameters() {
 		return parameters;

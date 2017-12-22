@@ -16,8 +16,6 @@ public class BoundaryValueAnalyzer {
 	final long nat1Min = 1;
 
 	private HashMap boundaryValueList;
-
-
 	private ArrayList<HashMap<String, Long>> inputDataList;
 
 
@@ -42,6 +40,18 @@ public class BoundaryValueAnalyzer {
 
 		makeInputDataList(_information);
 	}
+
+	public HashMap getBoundaryValueList() { return boundaryValueList; }
+	public ArrayList<HashMap<String, Long>> getInputDataList() { return inputDataList; }
+	public void printAllInputValue() {
+		inputDataList.forEach(inputData -> {
+			inputData.forEach((k, v) -> {
+				System.out.print(v + " ");
+			});
+			System.out.println();
+		});
+	}
+
 
 	private void generateTypeBoundaryValue(InformationExtractor _information) {
 		ArrayList<String> parameters = _information.getParameters();
@@ -179,16 +189,6 @@ public class BoundaryValueAnalyzer {
 					inputDataList.addAll(inputDataListTmpTmp);
 				}
 				int repeatTimesOfInsert = 0;
-/*
-				current_bvs.forEach(bv -> {
-					int offset = repeatTimesOfInsert*inputDataList.size();
-					for(int j=0; j<inputDataListInitialState.size(); j++) {
-						HashMap inputData = inputDataList.get(j + offset);
-						inputData.put(p, bv);
-					}
-
-				});
-*/
 				for(int j=0; j<current_bvs.size(); j++) {
 					long currentBv = (long) current_bvs.get(j);
 					int offset = repeatTimesOfInsert*inputDataListInitialState.size();
@@ -199,18 +199,8 @@ public class BoundaryValueAnalyzer {
 					repeatTimesOfInsert++;
 				}
 
-
 			}
 		});
-
-	}
-
-	public HashMap getBoundaryValueList() {
-		return boundaryValueList;
-	}
-
-	public ArrayList<HashMap<String, Long>> getInputDataList() {
-		return inputDataList;
-	}
+	} //end makeInputDatList
 
 }

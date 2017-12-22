@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class Test_IfElseExprSyntaxTree {
+public class Test_IfElseExprSyntaxTreeGenerator {
 
 	@BeforeAll
 	static void initAll()
@@ -39,10 +39,9 @@ public class Test_IfElseExprSyntaxTree {
 				TCExpression tcExpression = tcFunctionDefinition.body;
 				String ifExpressionBody = tcExpression.toString();
 
-				IfElseExprSyntaxTree ifElseExprSyntaxTree = null;
+				IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator = null;
 				try {
-					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
-					ifElseExprSyntaxTree.printNodesRecursively(ifElseExprSyntaxTree.getRoot());
+					ifElseExprSyntaxTreeGenerator = new IfElseExprSyntaxTreeGenerator(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
