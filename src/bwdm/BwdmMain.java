@@ -28,7 +28,6 @@ public class BwdmMain {
 		ExpectedOutputDataGenerator expectedOutputDataGenerator =
 				new ExpectedOutputDataGenerator(root, parameters, inputDataList);
 
-
 		System.out.println();
 
 	}

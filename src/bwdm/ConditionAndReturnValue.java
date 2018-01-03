@@ -7,8 +7,20 @@ class ConditionAndReturnValueList {
 	int size=0;
 	ArrayList<ConditionAndReturnValue> conditionAndReturnValues;
 
+	private class ConditionAndReturnValue {
+		String returnStr;
+		ArrayList<String>  conditions;
+		ArrayList<Boolean> bools;
+
+		public ConditionAndReturnValue() {
+			size++;
+			conditions = new ArrayList();
+			bools = new ArrayList();
+		}
+	}
+
 	public ConditionAndReturnValueList(IfNode _root) {
-		conditionAndReturnValues = new ArrayList<>();
+		conditionAndReturnValues = new ArrayList();
 		recursiveReturnNodeFind(_root);
 	}
 
@@ -48,19 +60,6 @@ class ConditionAndReturnValueList {
 			}
 			System.out.println(current.returnStr);
 			System.out.println();
-		}
-	}
-
-
-	private class ConditionAndReturnValue {
-		ArrayList<String>  conditions;
-		ArrayList<Boolean> bools;
-		String returnStr;
-
-		public ConditionAndReturnValue() {
-			size++;
-			conditions = new ArrayList();
-			bools = new ArrayList();
 		}
 	}
 

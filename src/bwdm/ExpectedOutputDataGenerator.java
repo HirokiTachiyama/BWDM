@@ -15,10 +15,8 @@ public class ExpectedOutputDataGenerator {
 		_inputDataList.forEach(inputData -> {
 			extractExpectedOutputDataRecursively(_root, _parameters, inputData);
 		});
-
 		printAllTestcasesByBV(_parameters, _inputDataList);
 	}
-
 
 	//条件式は両辺のうち片方のみ変数が含まれているという制約付き
 	void extractExpectedOutputDataRecursively(Node _node,
@@ -138,8 +136,7 @@ public class ExpectedOutputDataGenerator {
 		return returnBool;
 	}
 
-
-	void printAllTestcasesByBV(ArrayList<String> _parameters,
+	public void printAllTestcasesByBV(ArrayList<String> _parameters,
 							   ArrayList<HashMap<String, Long>> _inputDataList) {
 		System.out.print("parameters:");
 		for(String prm : _parameters) {
@@ -157,7 +154,5 @@ public class ExpectedOutputDataGenerator {
 			System.out.println("-> " + expectedOutputDataList.get(i));
 		}
 	}
-
-
 
 }
