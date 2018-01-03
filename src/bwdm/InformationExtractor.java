@@ -31,37 +31,39 @@ class InformationExtractor {
     //今回扱うのは仮引数
 
     //file name and path
-    private String directory;//ok
-    private String vdmFileName;//ok
-    private String vdmFilePath;//ok
+    private String directory;
+    private String vdmFileName;
+    private String vdmFilePath;
 
     //argument types information
-    private String argumentTypeBody; //(int,nat,nat1) ok
-    private ArrayList<String> argumentTypes; //int, nat, nat1 ok
-    private int intNum; //ok
-    private int natNum;  //ok
-    private int nat1Num;  //ok
+    private String argumentTypeBody; //(int,nat,nat1)
+    private ArrayList<String> argumentTypes; //int, nat, nat1
+    private int intNum;
+    private int natNum;
+    private int nat1Num;
     
     //parameter information
-    private String parameterBodies; //a*b*c ok
-	private ArrayList<String> parameters; //a, b, c ok
+    private String parameterBodies; //a*b*c
+	private ArrayList<String> parameters; //a, b, c
 
 
-	private String ifExpressionBody; //ok
+	private String ifExpressionBody;
 
-	private IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator; //ok
+	private IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator;
 
 
-    private HashMap ifConditionBodies; //a parameter to ArrayList of if-conditions  ok
+    private HashMap<String, ArrayList<String>> ifConditionBodies;
+    //a parameter to ArrayList of if-conditions
 	//ArrayList of ifConditions of each parameter
 	//ifConditionBodies.get("a") : "4<a", "a<7"
 	//ifConditionBodies.get("b") : "-3<b","b>100","0<b"
 	//ifConditionBodies.get("c") : "c<10","3<c","c>-29"
 
-	private ArrayList<String> ifConditionBodiesInCameForward; //ok
+	private ArrayList<String> ifConditionBodiesInCameForward;
 
 
-	private HashMap ifConditions; //a parameter to ArrayList of HashMaps that is parsed each if-expression ok
+	private HashMap<String, ArrayList<HashMap<String, String>>> ifConditions;
+	//a parameter to ArrayList of HashMaps that is parsed each if-expression
 	//ArrayList of HashMap of parsed if-expr.
 	//ifConditions.get("a") : 'HashMap of 4<a', 'HashMap of a<7'
 	//ifConditions.get("b") : 'HashMap of -3<b', 'HashMap of b>100', 'HashMap of 0<b'
@@ -85,9 +87,9 @@ class InformationExtractor {
 		parameters = new ArrayList<String>(); //a, b, c
 
 		ifExpressionBody = new String();
-		ifConditionBodies = new HashMap<String, ArrayList<String>>();
+		ifConditionBodies = new HashMap();
 		ifConditionBodiesInCameForward = new ArrayList<String>();
-		ifConditions = new HashMap<String, ArrayList<HashMap<String, String>>>();
+		ifConditions = new HashMap();
         /*Done initializing fields*/
 
 		LexTokenReader lexer = new LexTokenReader(new File(vdmFilePath), Dialect.VDM_PP);
@@ -176,11 +178,10 @@ class InformationExtractor {
 	}
 
 	private void parse(String condition, String parameter) {
-		ArrayList al = (ArrayList) ifConditionBodies.get(parameter);
+		ArrayList al = ifConditionBodies.get(parameter);
 		al.add(condition);
 
-
-		String symbol = getSymbol(condition);
+		String symbol = Util.getSymbol(condition);
 		int indexOfSymbol = condition.indexOf(symbol);
 		HashMap hm = new HashMap<String, String>();
 		hm.put("left", condition.substring(0, indexOfSymbol));
@@ -195,18 +196,9 @@ class InformationExtractor {
 			hm.put("right", condition.substring(indexOfSymbol + symbol.length()));
 		}
 
-		al = (ArrayList) ifConditions.get(parameter);
+		al = ifConditions.get(parameter);
 		al.add(hm);
     }
-
-	private String getSymbol(String condition) {
-		if      (condition.indexOf("<=") != -1)  return "<=";
-		else if (condition.indexOf(">=") != -1)  return ">=";
-		else if (condition.indexOf("<") != -1)   return "<";
-		else if (condition.indexOf(">") != -1)   return ">";
-		else if (condition.indexOf("mod") != -1) return "mod";
-		else                                     return "other";
-	}
 
 	public IfElseExprSyntaxTreeGenerator getIfElseExprSyntaxTreeGenerator() {
     	return ifElseExprSyntaxTreeGenerator;

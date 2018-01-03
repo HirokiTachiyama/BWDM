@@ -20,7 +20,9 @@ abstract class Node {
 
 class IfNode extends Node {
 	public String conditionStr;
-	public Node conditionTrueNode, conditionFalseNode; //Ifノードには子ノードが2つ
+	public Node conditionTrueNode;
+
+	public Node conditionFalseNode; //Ifノードには子ノードが2つ
 
 	public IfNode(String _conditionStr, int _nodeLevel){
 		conditionStr = _conditionStr;
@@ -28,6 +30,7 @@ class IfNode extends Node {
 		isIfNode = true;
 		ID = staticID++;
 	}
+
 
 	@Override
 	public String getConditionOrReturnStr() {
