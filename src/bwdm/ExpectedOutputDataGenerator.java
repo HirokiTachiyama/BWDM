@@ -2,7 +2,6 @@ package bwdm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import bwdm.IfNode;
 
 public class ExpectedOutputDataGenerator {
 
@@ -17,9 +16,7 @@ public class ExpectedOutputDataGenerator {
 			extractExpectedOutputDataRecursively(_root, _parameters, inputData);
 		});
 
-
-		System.out.println();
-
+		printAllTestcasesByBV(_parameters, _inputDataList);
 	}
 
 
@@ -38,7 +35,7 @@ public class ExpectedOutputDataGenerator {
 			//各条件式には一つの変数(parameter)しか登場しない
 			_parameters.forEach(prm -> {
 				//条件式中の変数とprmが一致したらinputDataを代入して真偽判定
-				if(parsedCondition.get("right").equals(prm)) {
+				if(parsedCondition.get("right").equals(prm) || parsedCondition.get("left").equals(prm)) {
 					boolean conditionJudgeResult = judge(parsedCondition, _inputData, prm);
 
 					//判定結果がTRUEならばifNodeのtrueNodeに進んで再帰
@@ -142,6 +139,24 @@ public class ExpectedOutputDataGenerator {
 	}
 
 
+	void printAllTestcasesByBV(ArrayList<String> _parameters,
+							   ArrayList<HashMap<String, Long>> _inputDataList) {
+		System.out.print("parameters:");
+		for(String prm : _parameters) {
+			System.out.print(prm + " ");
+		}
+		System.out.println();
+
+		for(int i=0; i<expectedOutputDataList.size(); i++) {
+			System.out.println("Testcase No." + i);
+			HashMap<String, Long> inputData = _inputDataList.get(i);
+			for(String prm : _parameters) {
+				System.out.print(inputData.get(prm) + " ");
+			}
+			System.out.println();
+			System.out.println("-> " + expectedOutputDataList.get(i));
+		}
+	}
 
 
 
