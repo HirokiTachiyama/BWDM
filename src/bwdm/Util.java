@@ -16,8 +16,16 @@ class Util {
 		}
 	}
 
+	static String getSymbol(String condition) {
+		if      (condition.indexOf("<=") != -1)  return "<=";
+		else if (condition.indexOf(">=") != -1)  return ">=";
+		else if (condition.indexOf("<") != -1)   return "<";
+		else if (condition.indexOf(">") != -1)   return ">";
+		else if (condition.indexOf("mod") != -1) return "mod";
+		else                                     return "other";
+	}
 
-	public static Object getPrivateField(Object _target_obj, String _field_name)
+	static Object getPrivateField(Object _target_obj, String _field_name)
 			throws NoSuchFieldException, IllegalAccessException {
 		Class c = _target_obj.getClass();
 		Field f = c.getDeclaredField(_field_name);
@@ -26,7 +34,7 @@ class Util {
 	}
 
 
-	public static Method getPrivateMethod(Object _target_obj, String _method_name)
+	static Method getPrivateMethod(Object _target_obj, String _method_name)
 			throws NoSuchMethodException {
 		Class c = _target_obj.getClass();
 		Method m = c.getMethod(_method_name);
