@@ -3,11 +3,11 @@ package bwdm;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-class Util {
+public class Util {
 
 	public Util() {}
 
-	static boolean isNumber(String num) {
+	public static boolean isNumber(String num) {
 		try {
 			Integer.parseInt(num);
 			return true;
@@ -16,7 +16,7 @@ class Util {
 		}
 	}
 
-	static String getSymbol(String condition) {
+	public static String getOperator(String condition) {
 		if      (condition.indexOf("<=") != -1)  return "<=";
 		else if (condition.indexOf(">=") != -1)  return ">=";
 		else if (condition.indexOf("<") != -1)   return "<";

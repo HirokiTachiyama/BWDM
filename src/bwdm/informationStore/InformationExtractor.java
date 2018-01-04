@@ -1,5 +1,8 @@
-package bwdm;
+package bwdm.informationStore;
 
+import bwdm.Util;
+import bwdm.informationStore.ConditionAndReturnValueList;
+import bwdm.informationStore.IfElseExprSyntaxTree;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
 import com.fujitsu.vdmj.lex.Dialect;
@@ -24,7 +27,10 @@ import java.util.*;
 
 /* information what got from VDM++ specification file by syntax analyse with VDMJ */
 
-class InformationExtractor {
+public class InformationExtractor {
+
+	private ConditionAndReturnValueList conditionAndReturnValueList;
+	private IfElseExprSyntaxTree ifElseExprSyntaxTree;
 
     //argument  実引数
     //parameter 仮引数
@@ -49,9 +55,6 @@ class InformationExtractor {
 
 	private String ifExpressionBody;
 
-	private IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator;
-
-
     private HashMap<String, ArrayList<String>> ifConditionBodies;
     //a parameter to ArrayList of if-conditions
 	//ArrayList of ifConditions of each parameter
@@ -71,7 +74,7 @@ class InformationExtractor {
 
 
 	public InformationExtractor(String _vdmFileName, String _directory)
-			throws LexException, ParserException {
+			throws LexException, ParserException, IOException {
 
         /* Initializing fields*/
         vdmFileName = _vdmFileName;
@@ -115,7 +118,7 @@ class InformationExtractor {
 				countArgumentTypeNumByKind();
 
 				try {
-					ifElseExprSyntaxTreeGenerator = new IfElseExprSyntaxTreeGenerator(ifExpressionBody);
+					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
@@ -139,6 +142,12 @@ class InformationExtractor {
 			}
         });
 
+		ifElseExprSyntaxTree =
+				new IfElseExprSyntaxTree(ifExpressionBody);
+
+		conditionAndReturnValueList =
+				new ConditionAndReturnValueList(ifElseExprSyntaxTree.root);
+
     }
 
 	private void countArgumentTypeNumByKind() {
@@ -151,7 +160,7 @@ class InformationExtractor {
 
 
 	private void parseIfConditions() {
-		List<String> ifElses = ifElseExprSyntaxTreeGenerator.ifElses;
+		List<String> ifElses = ifElseExprSyntaxTree.ifElses;
 
 		for(int i=0; i<ifElses.size(); i++) {
 			String element = ifElses.get(i);
@@ -181,27 +190,27 @@ class InformationExtractor {
 		ArrayList al = ifConditionBodies.get(parameter);
 		al.add(condition);
 
-		String symbol = Util.getSymbol(condition);
-		int indexOfSymbol = condition.indexOf(symbol);
+		String operator = Util.getOperator(condition);
+		int indexOfoperator = condition.indexOf(operator);
 		HashMap hm = new HashMap<String, String>();
-		hm.put("left", condition.substring(0, indexOfSymbol));
-		hm.put("symbol", symbol);
+		hm.put("left", condition.substring(0, indexOfoperator));
+		hm.put("operator", operator);
 
 		//right-hand and surplus need branch depending on mod or other.
-		if(symbol.equals("mod")) {
+		if(operator.equals("mod")) {
 			int indexOfEqual = condition.indexOf("=");
-			hm.put("right", condition.substring(indexOfSymbol+3, indexOfEqual));
+			hm.put("right", condition.substring(indexOfoperator+3, indexOfEqual));
 			hm.put("surplus", condition.substring(indexOfEqual+1));
 		} else {
-			hm.put("right", condition.substring(indexOfSymbol + symbol.length()));
+			hm.put("right", condition.substring(indexOfoperator + operator.length()));
 		}
 
 		al = ifConditions.get(parameter);
 		al.add(hm);
     }
 
-	public IfElseExprSyntaxTreeGenerator getIfElseExprSyntaxTreeGenerator() {
-    	return ifElseExprSyntaxTreeGenerator;
+	public IfElseExprSyntaxTree getIfElseExprSyntaxTree() {
+    	return ifElseExprSyntaxTree;
 	}
 	public ArrayList<String> getParameters() {
 		return parameters;
@@ -212,6 +221,7 @@ class InformationExtractor {
 	public HashMap getIfConditions() {
 		return ifConditions;
 	}
-
-
+	public ConditionAndReturnValueList getConditionAndReturnValueList() {
+		return conditionAndReturnValueList;
+	}
 }

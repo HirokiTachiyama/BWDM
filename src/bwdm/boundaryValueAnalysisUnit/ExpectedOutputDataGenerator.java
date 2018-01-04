@@ -1,11 +1,17 @@
-package bwdm;
+package bwdm.boundaryValueAnalysisUnit;
+
+import bwdm.informationStore.Node;
+import bwdm.informationStore.IfNode;
+import bwdm.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class ExpectedOutputDataGenerator {
 
-	ArrayList<String> expectedOutputDataList;
+
+	private ArrayList<String> expectedOutputDataList;
 
 	public ExpectedOutputDataGenerator(IfNode _root,
 									   ArrayList<String> _parameters,
@@ -15,8 +21,9 @@ public class ExpectedOutputDataGenerator {
 		_inputDataList.forEach(inputData -> {
 			extractExpectedOutputDataRecursively(_root, _parameters, inputData);
 		});
-		printAllTestcasesByBV(_parameters, _inputDataList);
 	}
+
+	public ArrayList<String> getExpectedOutputDataList() { return expectedOutputDataList; }
 
 	//条件式は両辺のうち片方のみ変数が含まれているという制約付き
 	void extractExpectedOutputDataRecursively(Node _node,
@@ -55,19 +62,19 @@ public class ExpectedOutputDataGenerator {
 
 	}
 
-	private HashMap makeParsedCondition(String _condition) {
+	public static HashMap makeParsedCondition(String _condition) {
 		HashMap<String, String> parsedCondition = new HashMap();
-		String symbol = Util.getSymbol(_condition);
-		int indexOfSymbol = _condition.indexOf(symbol);
+		String operator = Util.getOperator(_condition);
+		int indexOfoperator = _condition.indexOf(operator);
 
-		parsedCondition.put("left", _condition.substring(0, indexOfSymbol));
-		parsedCondition.put("symbol", symbol);
-		if(symbol.equals("mod")) {
+		parsedCondition.put("left", _condition.substring(0, indexOfoperator));
+		parsedCondition.put("operator", operator);
+		if(operator.equals("mod")) {
 			int indexOfEqual = _condition.indexOf("=");
-			parsedCondition.put("right", _condition.substring(indexOfSymbol+3, indexOfEqual));
+			parsedCondition.put("right", _condition.substring(indexOfoperator+3, indexOfEqual));
 			parsedCondition.put("surplus", _condition.substring(indexOfEqual+1));
 		} else {
-			parsedCondition.put("right", _condition.substring(indexOfSymbol + symbol.length()));
+			parsedCondition.put("right", _condition.substring(indexOfoperator + operator.length()));
 		}
 		return parsedCondition;
 	}
@@ -78,7 +85,7 @@ public class ExpectedOutputDataGenerator {
 		boolean result;
 
 		if(Util.isNumber(_parsedCondition.get("left"))) { //右辺が変数
-			if(_parsedCondition.get("symbol").equals("mod")) {
+			if(_parsedCondition.get("operator").equals("mod")) {
 				result = judgeMod(
 						Long.valueOf(_parsedCondition.get("left")), //左辺：数字
 						_inputData.get(_parameter), //右辺：変数
@@ -87,13 +94,13 @@ public class ExpectedOutputDataGenerator {
 			} else {
 				result = judgeInequality(
 						Long.valueOf(_parsedCondition.get("left")), //左辺：数字
-						_parsedCondition.get("symbol"),
+						_parsedCondition.get("operator"),
 						_inputData.get(_parameter) //右辺：変数
 				);
 			}
 		}
 		else { //左辺が変数
-			if(_parsedCondition.get("symbol").equals("mod")) {
+			if(_parsedCondition.get("operator").equals("mod")) {
 				result = judgeMod(
 						_inputData.get(_parameter), //左辺：変数
 						Long.valueOf(_parsedCondition.get("right")), //右辺：数字
@@ -102,7 +109,7 @@ public class ExpectedOutputDataGenerator {
 			} else {
 				result = judgeInequality(
 						_inputData.get(_parameter), //左辺：変数
-						_parsedCondition.get("symbol"),
+						_parsedCondition.get("operator"),
 						Long.valueOf(_parsedCondition.get("right"))//右辺：数字
 				);
 			}
@@ -116,43 +123,24 @@ public class ExpectedOutputDataGenerator {
 		return _leftHand % _rightHand == _surplus;
 	}
 
-	private boolean judgeInequality(Long _leftHand, String _symbol, Long _rightHand){
+	private boolean judgeInequality(Long _leftHand, String _operator, Long _rightHand){
 		boolean returnBool;
-		if(_symbol.equals("<")) {
+		if(_operator.equals("<")) {
 			returnBool = _leftHand < _rightHand;
 		}
-		else if(_symbol.equals(">")) {
+		else if(_operator.equals(">")) {
 			returnBool = _leftHand > _rightHand;
 		}
-		else if(_symbol.equals("<=")) {
+		else if(_operator.equals("<=")) {
 			returnBool = _leftHand <= _rightHand;
 		}
-		else if(_symbol.equals(">=")) {
+		else if(_operator.equals(">=")) {
 			returnBool = _leftHand >= _rightHand;
 		}
 		else {
 			returnBool = true;
 		}
 		return returnBool;
-	}
-
-	public void printAllTestcasesByBV(ArrayList<String> _parameters,
-							   ArrayList<HashMap<String, Long>> _inputDataList) {
-		System.out.print("parameters:");
-		for(String prm : _parameters) {
-			System.out.print(prm + " ");
-		}
-		System.out.println();
-
-		for(int i=0; i<expectedOutputDataList.size(); i++) {
-			System.out.println("Testcase No." + i);
-			HashMap<String, Long> inputData = _inputDataList.get(i);
-			for(String prm : _parameters) {
-				System.out.print(inputData.get(prm) + " ");
-			}
-			System.out.println();
-			System.out.println("-> " + expectedOutputDataList.get(i));
-		}
 	}
 
 }

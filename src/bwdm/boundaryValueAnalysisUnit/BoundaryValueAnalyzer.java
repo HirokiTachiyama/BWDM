@@ -1,10 +1,11 @@
-package bwdm;
+package bwdm.boundaryValueAnalysisUnit;
+
+import bwdm.informationStore.InformationExtractor;
+import bwdm.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
-
-import static bwdm.Util.isNumber;
 
 public class BoundaryValueAnalyzer {
 
@@ -87,15 +88,14 @@ public class BoundaryValueAnalyzer {
 		allIfConditions.forEach( (parameter, ifConditions) ->{
 			((ArrayList) ifConditions).forEach(condition -> { //condition : HashMap<String, String>
 				String left   = ((HashMap<String, String>) condition).get("left");
-				String symbol = ((HashMap<String, String>) condition).get("symbol");
+				String operator = ((HashMap<String, String>) condition).get("operator");
 				String right  = ((HashMap<String, String>) condition).get("right");
-				System.out.println("cond"+left+symbol+right+"tion");
 				ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
 
 				long bv1=0, bv2=0, value=0;
-				if(isNumber(left)) {
+				if(Util.isNumber(left)) {
 					value = Long.parseLong(left);
-					switch (symbol) {
+					switch (operator) {
 						case "<=":
 							bv1 = value;
 							bv2 = bv1 - 1;
@@ -119,9 +119,9 @@ public class BoundaryValueAnalyzer {
 							break;
 					}
 
-				} else if(isNumber(right)) {
+				} else if(Util.isNumber(right)) {
 					value = Long.parseLong(right);
-					switch (symbol) {
+					switch (operator) {
 						case "<=":
 							bv1 = value;
 							bv2 = bv1 + 1;

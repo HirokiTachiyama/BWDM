@@ -1,34 +1,24 @@
 package bwdm;
 
+import bwdm.boundaryValueAnalysisUnit.BvaUnitMain;
+import bwdm.informationStore.InformationExtractor;
+import bwdm.symbolicExecutionUnit.SeUnitMain;
 import com.fujitsu.vdmj.lex.LexException;
 import com.fujitsu.vdmj.syntax.ParserException;
+import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BwdmMain {
 
-	public static void main(String[] args) throws LexException, ParserException {
+	public static void main(String[] args) throws LexException, ParserException, IOException {
 
 		InformationExtractor extractInformation = new InformationExtractor(args[0], args[1]);
-		IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator = extractInformation.getIfElseExprSyntaxTreeGenerator();
-		ArrayList<String> parameters = extractInformation.getParameters();
-		IfNode root = ifElseExprSyntaxTreeGenerator.getRoot();
-		//ifElseExprSyntaxTreeGenerator.printAllNodes();
 
-		BoundaryValueAnalyzer boundaryValueAnalyzer = new BoundaryValueAnalyzer(extractInformation);
-		//boundaryValueAnalyzer.printAllInputValue();
+		BvaUnitMain bvaUnitMain = new BvaUnitMain(extractInformation);
+		//bvaUnitMain.printAllTestcasesByBv();
 
-
-		ArrayList<HashMap<String, Long>> inputDataList = boundaryValueAnalyzer.getInputDataList();
-
-		ConditionAndReturnValueList conditionAndReturnValueList = new ConditionAndReturnValueList(root);
-		conditionAndReturnValueList.printAllConditionAndBoolAndReturn();
-
-		ExpectedOutputDataGenerator expectedOutputDataGenerator =
-				new ExpectedOutputDataGenerator(root, parameters, inputDataList);
-
-		System.out.println();
+		SeUnitMain seUnitMain = new SeUnitMain(extractInformation);
+		seUnitMain.printAllTestcasesBySe();
 
 	}
 }

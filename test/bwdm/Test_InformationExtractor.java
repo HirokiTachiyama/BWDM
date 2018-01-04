@@ -1,15 +1,15 @@
 package bwdm;
 
+import bwdm.informationStore.InformationExtractor;
 import com.fujitsu.vdmj.lex.LexException;
 import com.fujitsu.vdmj.syntax.ParserException;
-import com.fujitsu.vdmj.tc.types.TCTypeList;
 import org.junit.jupiter.api.*;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static bwdm.Test_InformationExtractor.TestCase.Arg1;
-import static bwdm.Test_InformationExtractor.TestCase.Arg2_Japanese;
 import static bwdm.Util.getPrivateField;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,7 +55,7 @@ public class Test_InformationExtractor {
 
     @BeforeAll
     @DisplayName("--- Start Unit Test for ExtractionInformation ---")
-    void initAllTests() throws LexException, ParserException {
+    void initAllTests() throws LexException, ParserException, IOException {
         testCasesDirectory = "./vdm_files/";
 
         //preparing instances of InformationExtractor for each test case file.

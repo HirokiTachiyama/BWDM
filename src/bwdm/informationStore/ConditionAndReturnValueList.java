@@ -1,14 +1,22 @@
-package bwdm;
+package bwdm.informationStore;
+
 
 import java.util.ArrayList;
 
-class ConditionAndReturnValueList {
+public class ConditionAndReturnValueList {
 
 	int size=0;
-	ArrayList<ConditionAndReturnValue> conditionAndReturnValues;
 
-	private class ConditionAndReturnValue {
+	public ArrayList<ConditionAndReturnValue> getConditionAndReturnValues() {
+		return conditionAndReturnValues;
+	}
+
+	private ArrayList<ConditionAndReturnValue> conditionAndReturnValues;
+
+	public class ConditionAndReturnValue {
 		String returnStr;
+		//conditions[0]の真偽値がbools[0]
+		//conditions[1]の真偽値がbools[1]...
 		ArrayList<String>  conditions;
 		ArrayList<Boolean> bools;
 
@@ -17,6 +25,11 @@ class ConditionAndReturnValueList {
 			conditions = new ArrayList();
 			bools = new ArrayList();
 		}
+
+		public String getReturnStr() { return returnStr; }
+		public ArrayList<String> getConditions() { return conditions; }
+		public ArrayList<Boolean> getBools() { return bools; }
+
 	}
 
 	public ConditionAndReturnValueList(IfNode _root) {
