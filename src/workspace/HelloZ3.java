@@ -2,6 +2,7 @@ package workspace;
 
 import com.microsoft.z3.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class HelloZ3 {
@@ -101,23 +102,25 @@ public class HelloZ3 {
 	}
 
 	static void solve4() {
-    	Context ctx = new Context();
-		IntExpr a = ctx.mkIntConst("a");
-		IntExpr b = ctx.mkIntConst("b");
-		IntExpr five = ctx.mkInt(5);
-		ArithExpr a_plus_b = ctx.mkAdd(a, b);
-		//BoolExpr q = ctx.mkEq(a_plus_b, five);
-		BoolExpr q = ctx.mkEq(a_plus_b, five);
-		BoolExpr nq = ctx.mkNot(q);
+		// a > 5
+
+		Context ctx = new Context();
 		Solver s = ctx.mkSolver();
-		s.add(nq);
+
+		IntExpr a = ctx.mkIntConst("a");
+		IntExpr five = ctx.mkInt(5);
+		BoolExpr a_bigger_five = ctx.mkLt(a, five);
+		System.out.println(a_bigger_five);
+		//a_bigger_five = ctx.mkNot(a_bigger_five);
+		s.add(a_bigger_five);
 		if(s.check() == Status.SATISFIABLE) {
 			System.out.println("SAT");
 			Model model = s.getModel();
-			System.out.println("a=" + model.evaluate(a, false) +
-					"b=" + model.evaluate(b, false));
+			System.out.println("a=" + model.evaluate(a, false));
 
 			System.out.println(model.toString());
+			//System.out.println(model.);
+			//System.out.println(s.);
 
 		} else {
 			System.out.println("UNSAT");
@@ -128,9 +131,9 @@ public class HelloZ3 {
 
 
 	public static void main(String[] args) {
-		solve1();
-		solve2();
-		solve3();
+		//solve1();
+		//solve2();
+		//solve3();
 		solve4();
 	}
 

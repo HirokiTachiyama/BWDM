@@ -52,7 +52,7 @@ public class ConditionAndReturnValueList {
 			Node tmpNode = node;
 			while(tmpNode != null){ //下のbreak文が
 				conditionAndReturnValue.conditions.add(tmpNode.parentNode.getConditionOrReturnStr());
-				conditionAndReturnValue.bools.add( !tmpNode.isIfNode );
+				conditionAndReturnValue.bools.add( tmpNode.isTrueNode ); //親ノードからみてTrue側かどうか
 
 				tmpNode = tmpNode.parentNode;
 				if(tmpNode.parentNode == null) break;

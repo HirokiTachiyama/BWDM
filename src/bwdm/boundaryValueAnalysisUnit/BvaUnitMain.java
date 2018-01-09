@@ -41,7 +41,6 @@ public class BvaUnitMain {
 			for(String prm : parameters) {
 				System.out.print(inputData.get(prm) + " ");
 			}
-			System.out.println();
 			System.out.println("-> " + expectedOutputDataList.get(i));
 		}
 	}

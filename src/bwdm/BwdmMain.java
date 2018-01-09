@@ -15,10 +15,12 @@ public class BwdmMain {
 		InformationExtractor extractInformation = new InformationExtractor(args[0], args[1]);
 
 		BvaUnitMain bvaUnitMain = new BvaUnitMain(extractInformation);
-		//bvaUnitMain.printAllTestcasesByBv();
+		bvaUnitMain.printAllTestcasesByBv();
 
 		SeUnitMain seUnitMain = new SeUnitMain(extractInformation);
 		seUnitMain.printAllTestcasesBySe();
+
+
 
 	}
 }

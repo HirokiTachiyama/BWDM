@@ -32,9 +32,9 @@ public class ExpectedOutputDataGenerator {
 
 		if(_node.isIfNode) { //IfNodeである場合
 			HashMap<String, String> parsedCondition = makeParsedCondition(_node.getConditionOrReturnStr());
-			Long[] inputDataArray = new Long[_parameters.size()];
+			long[] inputDataArray = new long[_parameters.size()];
 			for(int i=0; i<_parameters.size(); i++) {
-				inputDataArray[i] = _inputData.get(_parameters.get(i));
+				inputDataArray[i] = _inputData.get(_parameters.get(i)).longValue();
 			}
 
 			//各条件式には一つの変数(parameter)しか登場しない
@@ -88,27 +88,27 @@ public class ExpectedOutputDataGenerator {
 			if(_parsedCondition.get("operator").equals("mod")) {
 				result = judgeMod(
 						Long.valueOf(_parsedCondition.get("left")), //左辺：数字
-						_inputData.get(_parameter), //右辺：変数
+						Long.valueOf(_inputData.get(_parameter)), //右辺：変数
 						Long.valueOf(_parsedCondition.get("surplus"))
 						);
 			} else {
 				result = judgeInequality(
 						Long.valueOf(_parsedCondition.get("left")), //左辺：数字
 						_parsedCondition.get("operator"),
-						_inputData.get(_parameter) //右辺：変数
+						Long.valueOf(_inputData.get(_parameter)) //右辺：変数
 				);
 			}
 		}
 		else { //左辺が変数
 			if(_parsedCondition.get("operator").equals("mod")) {
 				result = judgeMod(
-						_inputData.get(_parameter), //左辺：変数
+						Long.valueOf(_inputData.get(_parameter)), //左辺：変数
 						Long.valueOf(_parsedCondition.get("right")), //右辺：数字
 						Long.valueOf(_parsedCondition.get("surplus"))
 				);
 			} else {
 				result = judgeInequality(
-						_inputData.get(_parameter), //左辺：変数
+						Long.valueOf(_inputData.get(_parameter)), //左辺：変数
 						_parsedCondition.get("operator"),
 						Long.valueOf(_parsedCondition.get("right"))//右辺：数字
 				);
@@ -124,7 +124,7 @@ public class ExpectedOutputDataGenerator {
 	}
 
 	private boolean judgeInequality(Long _leftHand, String _operator, Long _rightHand){
-		boolean returnBool;
+		boolean returnBool ;
 		if(_operator.equals("<")) {
 			returnBool = _leftHand < _rightHand;
 		}
