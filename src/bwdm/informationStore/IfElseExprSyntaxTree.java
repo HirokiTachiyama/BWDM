@@ -1,7 +1,4 @@
-package bwdm;
-
-
-
+package bwdm.informationStore;
 
 import com.fujitsu.vdmj.lex.LexException;
 import com.fujitsu.vdmj.syntax.ParserException;
@@ -11,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class IfElseExprSyntaxTreeGenerator {
+public class IfElseExprSyntaxTree {
 
 	IfNode root;
 	List<String> ifElses;
 	int count = 0;
 
 
-	public IfElseExprSyntaxTreeGenerator(String _ifExpressionBoby) throws ParserException, LexException, IOException{
+	public IfElseExprSyntaxTree(String _ifExpressionBoby) throws ParserException, LexException, IOException{
 		shapeIfElseBody(_ifExpressionBoby);
 		generateIfElseSyntaxTree();
 		//recursiveReturnNodeFind(root);
@@ -93,8 +90,8 @@ class IfElseExprSyntaxTreeGenerator {
 	}
 
 	private ReturnNode generateReturnNode(String returnStr,
-												 Node parentNode,
-												 int _nodeLevel){
+										  Node parentNode,
+										  int _nodeLevel){
 		ReturnNode returnNode =  new ReturnNode(returnStr, _nodeLevel);
 		returnNode.parentNode = parentNode;
 		return returnNode;

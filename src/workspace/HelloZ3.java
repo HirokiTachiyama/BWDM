@@ -2,6 +2,7 @@ package workspace;
 
 import com.microsoft.z3.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class HelloZ3 {
@@ -36,39 +37,104 @@ public class HelloZ3 {
     }
 
     public static void solve2() {
-        System.out.println("a < b + 5, 10 > a");
+		System.out.println("a < b + 5, 10 > a");
 
-        Context ctx = new Context();
+		Context ctx = new Context();
 
-        IntExpr a = ctx.mkIntConst("a");
-        IntExpr b = ctx.mkIntConst("b");
-        IntExpr five = ctx.mkInt(5);
-        IntExpr ten = ctx.mkInt(10);
+		IntExpr a = ctx.mkIntConst("a");
+		IntExpr b = ctx.mkIntConst("b");
+		IntExpr five = ctx.mkInt(5);
+		IntExpr ten = ctx.mkInt(10);
 
-        ArithExpr b_plus_five = ctx.mkAdd(b, five);
+		ArithExpr b_plus_five = ctx.mkAdd(b, five);
 
-        BoolExpr c1 = ctx.mkLt(a, b_plus_five);
-        BoolExpr c2 = ctx.mkGt(a, ten);
+		BoolExpr c1 = ctx.mkLt(a, b_plus_five);
+		BoolExpr c2 = ctx.mkGt(a, ten);
 
-        BoolExpr q = ctx.mkAnd(c1, c2);
+		BoolExpr q = ctx.mkAnd(c1, c2);
 
-        Solver s = ctx.mkSolver();
-        s.add(q);
-        if(s.check() == Status.SATISFIABLE) {
-            System.out.println("SAT");
-            Model model = s.getModel();
-            System.out.println("a=" + model.evaluate(a, false) +
-                               "b=" + model.evaluate(b, false));
-        } else {
-            System.out.println("UNSAT");
-        }
+		Solver s = ctx.mkSolver();
+		s.add(q);
+		if(s.check() == Status.SATISFIABLE) {
+			System.out.println("SAT");
+			Model model = s.getModel();
+			System.out.println("a=" + model.evaluate(a, false) +
+					"b=" + model.evaluate(b, false));
+		} else {
+			System.out.println("UNSAT");
+		}
 
-        ctx.close();
-    }
+		ctx.close();
+	}
 
-    public static void main(String[] args) {
-        solve1();
-        solve2();
-    }
+	public static void solve3() {
+		System.out.println("a < b + 5 and a % 10 = 0");
+
+		Context ctx = new Context();
+
+		IntExpr a = ctx.mkIntConst("a");
+		IntExpr b = ctx.mkIntConst("b");
+		IntExpr five = ctx.mkInt(5);
+		IntExpr ten = ctx.mkInt(10);
+		IntExpr zero = ctx.mkInt(0);
+
+		ArithExpr b_plus_five = ctx.mkAdd(b, five);
+
+		BoolExpr c1 = ctx.mkLt(a, b_plus_five);
+		//BoolExpr c2 = ctx.mkGt(a, ten);
+		IntExpr c2 = ctx.mkMod(a, ten);
+		BoolExpr c3 = ctx.mkEq(c2, zero);
+
+		BoolExpr q = ctx.mkAnd(c1, c3);
+
+		Solver s = ctx.mkSolver();
+		s.add(q);
+		if(s.check() == Status.SATISFIABLE) {
+			System.out.println("SAT");
+			Model model = s.getModel();
+			System.out.println("a=" + model.evaluate(a, false) +
+					"b=" + model.evaluate(b, false));
+		} else {
+			System.out.println("UNSAT");
+		}
+
+		ctx.close();
+	}
+
+	static void solve4() {
+		// a > 5
+
+		Context ctx = new Context();
+		Solver s = ctx.mkSolver();
+
+		IntExpr a = ctx.mkIntConst("a");
+		IntExpr five = ctx.mkInt(5);
+		BoolExpr a_bigger_five = ctx.mkLt(a, five);
+		System.out.println(a_bigger_five);
+		//a_bigger_five = ctx.mkNot(a_bigger_five);
+		s.add(a_bigger_five);
+		if(s.check() == Status.SATISFIABLE) {
+			System.out.println("SAT");
+			Model model = s.getModel();
+			System.out.println("a=" + model.evaluate(a, false));
+
+			System.out.println(model.toString());
+			//System.out.println(model.);
+			//System.out.println(s.);
+
+		} else {
+			System.out.println("UNSAT");
+		}
+
+
+	}
+
+
+	public static void main(String[] args) {
+		//solve1();
+		//solve2();
+		//solve3();
+		solve4();
+	}
 
 }

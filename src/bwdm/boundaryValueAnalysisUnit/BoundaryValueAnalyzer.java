@@ -1,10 +1,11 @@
-package bwdm;
+package bwdm.boundaryValueAnalysisUnit;
+
+import bwdm.informationStore.InformationExtractor;
+import bwdm.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
-
-import static bwdm.Util.isNumber;
 
 public class BoundaryValueAnalyzer {
 
@@ -15,15 +16,16 @@ public class BoundaryValueAnalyzer {
 	final long nat1Max = natMax + 1;
 	final long nat1Min = 1;
 
-	private HashMap boundaryValueList;
+	private HashMap <String, ArrayList<Long>>boundaryValueList;
 	private ArrayList<HashMap<String, Long>> inputDataList;
 
 
 	public BoundaryValueAnalyzer(InformationExtractor _information) {
 		//generation of instance of each parameter
-		boundaryValueList = new HashMap<String, ArrayList<Integer>>();
+		boundaryValueList = new HashMap();
+		inputDataList = new ArrayList();
 		_information.getParameters().forEach(p -> {
-			boundaryValueList.put(p, new ArrayList<Integer>());
+			boundaryValueList.put(p, new ArrayList());
 		});
 
 		generateTypeBoundaryValue(_information);
@@ -33,7 +35,7 @@ public class BoundaryValueAnalyzer {
 		ArrayList<String> parameters = _information.getParameters();
 		for(int i = 0; i < boundaryValueList.size(); i++) {
 			String parameter = parameters.get(i);
-			ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
+			ArrayList bvs = boundaryValueList.get(parameter);
 			bvs = (ArrayList) bvs.stream().distinct().collect(Collectors.toList());
 			boundaryValueList.put(parameter, bvs);
 		}
@@ -60,7 +62,7 @@ public class BoundaryValueAnalyzer {
 		for(int i=0; i<argumentTypes.size(); i++) {
 			String parameter = parameters.get(i);
 			String argumentType = argumentTypes.get(i);
-			ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
+			ArrayList bvs = boundaryValueList.get(parameter);
 			switch (argumentType) {
 				case "int":
 					bvs.add(intMax);
@@ -87,15 +89,14 @@ public class BoundaryValueAnalyzer {
 		allIfConditions.forEach( (parameter, ifConditions) ->{
 			((ArrayList) ifConditions).forEach(condition -> { //condition : HashMap<String, String>
 				String left   = ((HashMap<String, String>) condition).get("left");
-				String symbol = ((HashMap<String, String>) condition).get("symbol");
+				String operator = ((HashMap<String, String>) condition).get("operator");
 				String right  = ((HashMap<String, String>) condition).get("right");
-				System.out.println("cond"+left+symbol+right+"tion");
-				ArrayList bvs = (ArrayList) boundaryValueList.get(parameter);
+				ArrayList bvs = boundaryValueList.get(parameter);
 
 				long bv1=0, bv2=0, value=0;
-				if(isNumber(left)) {
+				if(Util.isNumber(left)) {
 					value = Long.parseLong(left);
-					switch (symbol) {
+					switch (operator) {
 						case "<=":
 							bv1 = value;
 							bv2 = bv1 - 1;
@@ -119,9 +120,9 @@ public class BoundaryValueAnalyzer {
 							break;
 					}
 
-				} else if(isNumber(right)) {
+				} else if(Util.isNumber(right)) {
 					value = Long.parseLong(right);
-					switch (symbol) {
+					switch (operator) {
 						case "<=":
 							bv1 = value;
 							bv2 = bv1 + 1;
@@ -156,11 +157,10 @@ public class BoundaryValueAnalyzer {
 
 	private void makeInputDataList(InformationExtractor _information) {
 		ArrayList parameters = _information.getParameters();
-		inputDataList = new ArrayList<HashMap<String, Long>>();
 
 		//最初の一つ目
 		String first_prm = (String) parameters.get(0);
-		ArrayList<Integer> first_bvs = (ArrayList) boundaryValueList.get(first_prm);
+		ArrayList<Long> first_bvs = (ArrayList) boundaryValueList.get(first_prm);
 		for(int i=0; i<first_bvs.size(); i++) {
 			inputDataList.add(new HashMap());
 			HashMap hm = inputDataList.get(i);
@@ -176,17 +176,16 @@ public class BoundaryValueAnalyzer {
 				ArrayList inputDataListInitialState = (ArrayList) inputDataList.clone();
 
 				for(int i=0; i<current_bvs.size() - 1; i++) {
-					ArrayList inputDataListTmpTmp = new ArrayList<Long>();
+					ArrayList inputDataListTmp = new ArrayList();
 					inputDataListInitialState.forEach(inputDataOriginal -> {
 						//inputDataを複製
-						HashMap inputData = new HashMap<String, Long>();
+						HashMap inputData = new HashMap<String, String>();
 						((HashMap) inputDataOriginal).forEach((k, v) -> {
 							inputData.put(k, v);
 						});
-
-						inputDataListTmpTmp.add(inputData);
+						inputDataListTmp.add(inputData);
 					});
-					inputDataList.addAll(inputDataListTmpTmp);
+					inputDataList.addAll(inputDataListTmp);
 				}
 				int repeatTimesOfInsert = 0;
 				for(int j=0; j<current_bvs.size(); j++) {

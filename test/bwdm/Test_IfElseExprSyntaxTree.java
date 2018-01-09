@@ -1,5 +1,6 @@
 package bwdm;
 
+import bwdm.informationStore.IfElseExprSyntaxTree;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
 import com.fujitsu.vdmj.lex.Dialect;
@@ -18,7 +19,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class Test_IfElseExprSyntaxTreeGenerator {
+public class Test_IfElseExprSyntaxTree {
 
 	@BeforeAll
 	static void initAll()
@@ -39,9 +40,9 @@ public class Test_IfElseExprSyntaxTreeGenerator {
 				TCExpression tcExpression = tcFunctionDefinition.body;
 				String ifExpressionBody = tcExpression.toString();
 
-				IfElseExprSyntaxTreeGenerator ifElseExprSyntaxTreeGenerator = null;
+				IfElseExprSyntaxTree ifElseExprSyntaxTree = null;
 				try {
-					ifElseExprSyntaxTreeGenerator = new IfElseExprSyntaxTreeGenerator(ifExpressionBody);
+					ifElseExprSyntaxTree = new IfElseExprSyntaxTree(ifExpressionBody);
 				} catch (ParserException e) {
 					e.printStackTrace();
 				} catch (LexException e) {
