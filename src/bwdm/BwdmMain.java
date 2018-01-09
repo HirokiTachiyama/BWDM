@@ -23,4 +23,10 @@ public class BwdmMain {
 
 
 	}
+
+
+	void outputTestcases() {
+		//todo テストケース出力処理！
+	}
+
 }
