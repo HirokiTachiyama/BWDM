@@ -14,6 +14,8 @@ public class SeUnitMain {
 	}
 
 	public void printAllTestcasesBySe() {
+		System.out.println("Testcases by Symbolic Execution");
+
 		ArrayList<String> parameters = ie.getParameters();
 		ArrayList<HashMap<String, String>> inputDataList = se.getInputDataList();
 		ArrayList<String> expectedOutputDataList = se.getExpectedOutputDataList();
@@ -25,7 +27,7 @@ public class SeUnitMain {
 		System.out.println();
 
 		for(int i=0; i<expectedOutputDataList.size(); i++) {
-			System.out.println("Testcase No." + i);
+			System.out.print("Testcase No." + i + " : ");
 			HashMap<String, String> inputData = inputDataList.get(i);
 			for(String prm : parameters) {
 				System.out.print(inputData.get(prm) + " ");

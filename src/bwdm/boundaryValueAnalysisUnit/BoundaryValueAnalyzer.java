@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 public class BoundaryValueAnalyzer {
 
-	final long intMax  = Integer.MAX_VALUE;
-	final long intMin  = Integer.MIN_VALUE;
-	final long natMax  = intMax * 2;
-	final long natMin  = 0;
-	final long nat1Max = natMax + 1;
-	final long nat1Min = 1;
+	public static final long intMax  = Integer.MAX_VALUE;
+	public static final long intMin  = Integer.MIN_VALUE;
+	public static final long natMax  = intMax * 2;
+	public static final long natMin  = 0;
+	public static final long nat1Max = natMax + 1;
+	public static final long nat1Min = 1;
 
 	private HashMap <String, ArrayList<Long>>boundaryValueList;
 	private ArrayList<HashMap<String, Long>> inputDataList;
@@ -65,16 +65,22 @@ public class BoundaryValueAnalyzer {
 			ArrayList bvs = boundaryValueList.get(parameter);
 			switch (argumentType) {
 				case "int":
+					bvs.add(intMax + 1);
 					bvs.add(intMax);
 					bvs.add(intMin);
+					bvs.add(intMin - 1);
 					break;
 				case "nat":
+					bvs.add(natMax + 1);
 					bvs.add(natMax);
 					bvs.add(natMin);
+					bvs.add(natMin - 1);
 					break;
 				case "nat1":
+					bvs.add(nat1Max + 1);
 					bvs.add(nat1Max);
 					bvs.add(nat1Min);
+					bvs.add(nat1Min - 1);
 					break;
 				default:
 					break;

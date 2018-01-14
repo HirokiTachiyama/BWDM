@@ -1,0 +1,11 @@
+class leap
+
+functions
+
+judgeLeap nat1*nat1*nat1 -> seq of char
+judgeLeap(h, y, m, d) ==
+  if(y + y/4 + h/4 - 2*h + (13 * (m+1) / 5) + d = 0) then
+    "Sunday"
+  else
+    if
+

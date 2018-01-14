@@ -17,14 +17,15 @@ public class BvaUnitMain {
 		boundaryValueAnalyzer = new BoundaryValueAnalyzer(_ie);
 		expectedOutputDataGenerator =
 				new ExpectedOutputDataGenerator(
+						_ie,
 						_ie.getIfElseExprSyntaxTree().getRoot(),
-						_ie.getParameters(),
 						boundaryValueAnalyzer.getInputDataList()
 				);
 
 	}
 
 	public void printAllTestcasesByBv() {
+		System.out.println("Testcases by Boundary Value Analysis");
 		ArrayList<String> parameters = ie.getParameters();
 		ArrayList<HashMap<String, Long>> inputDataList = boundaryValueAnalyzer.getInputDataList();
 		ArrayList<String> expectedOutputDataList = expectedOutputDataGenerator.getExpectedOutputDataList();
@@ -36,7 +37,7 @@ public class BvaUnitMain {
 		System.out.println();
 
 		for(int i=0; i<expectedOutputDataList.size(); i++) {
-			System.out.println("Testcase No." + i);
+			System.out.print("Testcase No." + i + " : ");
 			HashMap<String, Long> inputData = inputDataList.get(i);
 			for(String prm : parameters) {
 				System.out.print(inputData.get(prm) + " ");
