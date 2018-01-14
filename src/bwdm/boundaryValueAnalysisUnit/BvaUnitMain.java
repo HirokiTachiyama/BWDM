@@ -11,38 +11,37 @@ public class BvaUnitMain {
 	BoundaryValueAnalyzer boundaryValueAnalyzer;
 	ExpectedOutputDataGenerator expectedOutputDataGenerator;
 
+	public BoundaryValueAnalyzer getBoundaryValueAnalyzer() { return boundaryValueAnalyzer; }
 
 	public BvaUnitMain(InformationExtractor _ie) {
 		this.ie = _ie;
 		boundaryValueAnalyzer = new BoundaryValueAnalyzer(_ie);
 		expectedOutputDataGenerator =
 				new ExpectedOutputDataGenerator(
+						_ie,
 						_ie.getIfElseExprSyntaxTree().getRoot(),
-						_ie.getParameters(),
 						boundaryValueAnalyzer.getInputDataList()
 				);
 
 	}
 
-	public void printAllTestcasesByBv() {
+	public String getAllTestcasesByBv() {
+		String buf = "";
 		ArrayList<String> parameters = ie.getParameters();
 		ArrayList<HashMap<String, Long>> inputDataList = boundaryValueAnalyzer.getInputDataList();
 		ArrayList<String> expectedOutputDataList = expectedOutputDataGenerator.getExpectedOutputDataList();
 
-		System.out.print("parameters:");
-		for(String prm : parameters) {
-			System.out.print(prm + " ");
-		}
-		System.out.println();
 
 		for(int i=0; i<expectedOutputDataList.size(); i++) {
-			System.out.println("Testcase No." + i);
+			buf += "No." + (i+1) + " : ";
 			HashMap<String, Long> inputData = inputDataList.get(i);
 			for(String prm : parameters) {
-				System.out.print(inputData.get(prm) + " ");
+				buf += inputData.get(prm) + " ";
 			}
-			System.out.println("-> " + expectedOutputDataList.get(i));
+			buf += "-> " + expectedOutputDataList.get(i) + "\n";
 		}
+
+		return buf;
 	}
 
 

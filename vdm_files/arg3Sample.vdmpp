@@ -1,0 +1,18 @@
+class ProblemClass
+
+  functions
+
+  problemFunction : nat*nat*nat -> seq of char
+    problemFunction(a, b, c) ==
+      if(a > 4) then
+        if(b mod 10 = 3) then
+          if(c < 13) then
+	    "a>4 and b>10 and c<13"
+          else
+	    "a>4 and b>10 and c>=13"  
+        else
+	  "a>4 and b<=10"
+      else
+        "a<=4";
+
+end ProblemClass

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ConditionAndReturnValueList {
 
-	int size=0;
+	public int size=0;
 
 	public ArrayList<ConditionAndReturnValue> getConditionAndReturnValues() {
 		return conditionAndReturnValues;

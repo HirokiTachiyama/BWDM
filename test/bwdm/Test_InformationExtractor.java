@@ -64,7 +64,7 @@ public class Test_InformationExtractor {
         for(int i=0; i<testCase.SIZE; i++) {
         	String testCaseName = testCases[i].toString();
 			String tmpVdmFileName = testCaseName + ".vdmpp";
-			ies[i] = new InformationExtractor(tmpVdmFileName, testCasesDirectory);
+			ies[i] = new InformationExtractor(tmpVdmFileName);
 		}
 
 	}
