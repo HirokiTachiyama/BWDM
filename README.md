@@ -16,9 +16,9 @@
 * 20170105  add 'test' package. rename some directories.
 * 20171025  create new repository, change internal construction of BWDM.
 * 20180115
-Implementation for my master paper was almost done :)
-... BVA and Symbolic Exe. are available for auto-gen of testcase.
-... Command-line options are also available.
+  * Implementation for my master paper was almost done :)
+  * BVA and Symbolic Exe. are available for auto-gen of testcase.
+  * Command-line options are also available (below table).
 
 
 | Option        | Content          |
