@@ -37,9 +37,11 @@ public class InformationExtractor {
     //今回扱うのは仮引数
 
     //file name and path
-    private String directory;
-    private String vdmFileName;
-    private String vdmFilePath;
+	private String vdmFileName;
+	private String vdmFilePath;
+
+	//function name
+	private String functionName;
 
     //argument types information
     private String argumentTypeBody; //(int,nat,nat1)
@@ -73,14 +75,13 @@ public class InformationExtractor {
 	//ifConditions.get("c") : 'HashMap of c<10', 'HashMap of 3<c', 'HashMap of c>-29'
 
 
-	public InformationExtractor(String _vdmFileName, String _directory)
+	public InformationExtractor(String _vdmFilePath)
 			throws LexException, ParserException, IOException {
 
         /* Initializing fields*/
-        vdmFileName = _vdmFileName;
-        directory = _directory;
-        
-        vdmFilePath = directory + vdmFileName;
+		vdmFilePath = _vdmFilePath;
+		File vdmFile = new File(vdmFilePath);
+		vdmFileName = vdmFile.getName();
 
 		/* variableName = init; example */
 		argumentTypeBody = new String(); //int*nat*nat1
@@ -95,7 +96,7 @@ public class InformationExtractor {
 		ifConditions = new HashMap();
         /*Done initializing fields*/
 
-		LexTokenReader lexer = new LexTokenReader(new File(vdmFilePath), Dialect.VDM_PP);
+		LexTokenReader lexer = new LexTokenReader(vdmFile, Dialect.VDM_PP);
 		DefinitionReader parser = new DefinitionReader(lexer);
 		ASTDefinitionList astDefinitions = parser.readDefinitions();
 
@@ -107,7 +108,7 @@ public class InformationExtractor {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				functionName = tcFunctionDefinition.name.getName();
 				TCFunctionType tcFunctionType = tcFunctionDefinition.type;
 				TCTypeList tmp_argumentTypes = tcFunctionType.parameters;
 				TCExpression tcExpression = tcFunctionDefinition.body;
@@ -148,7 +149,7 @@ public class InformationExtractor {
 		conditionAndReturnValueList =
 				new ConditionAndReturnValueList(ifElseExprSyntaxTree.root);
 
-    }
+	}
 
 	private void countArgumentTypeNumByKind() {
 		argumentTypes.forEach(at -> {
@@ -224,4 +225,7 @@ public class InformationExtractor {
 	public ConditionAndReturnValueList getConditionAndReturnValueList() {
 		return conditionAndReturnValueList;
 	}
+	public String getFunctionName() { return functionName; }
+	public String getVdmFileName() { return vdmFileName; }
+	public String getVdmFilePath() { return vdmFilePath; }
 }

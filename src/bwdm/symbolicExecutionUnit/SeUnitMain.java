@@ -13,27 +13,23 @@ public class SeUnitMain {
 		se = new SymbolicExecutioner(ie);
 	}
 
-	public void printAllTestcasesBySe() {
-		System.out.println("Testcases by Symbolic Execution");
+	public String getAllTestcasesBySe() {
+		String buf = "";
 
 		ArrayList<String> parameters = ie.getParameters();
 		ArrayList<HashMap<String, String>> inputDataList = se.getInputDataList();
 		ArrayList<String> expectedOutputDataList = se.getExpectedOutputDataList();
 
-		System.out.print("parameters:");
-		for(String prm : parameters) {
-			System.out.print(prm + " ");
-		}
-		System.out.println();
-
 		for(int i=0; i<expectedOutputDataList.size(); i++) {
-			System.out.print("Testcase No." + i + " : ");
+			buf += "No." + (i+1) + " : ";
 			HashMap<String, String> inputData = inputDataList.get(i);
 			for(String prm : parameters) {
-				System.out.print(inputData.get(prm) + " ");
+				buf += inputData.get(prm) + " ";
 			}
-			System.out.println("-> " + expectedOutputDataList.get(i));
+			 buf += "-> " + expectedOutputDataList.get(i) + "\n";
 		}
-
+		return buf;
 	}
+
+	public SymbolicExecutioner getSe() { return se; }
 }
