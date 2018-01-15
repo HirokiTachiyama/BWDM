@@ -10,10 +10,16 @@ import com.fujitsu.vdmj.syntax.ParserException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class BwdmMain {
+
+
+	private static String buildDate = "2018-1-15 PM22:20(JST)";
+
 
 	public static void main(String[] args) throws LexException, ParserException, IOException {
 
@@ -126,7 +132,7 @@ public class BwdmMain {
 			System.out.println("BWDM (Boundary Values/VDM)");
 			System.out.println("Automatic Testcase Generation Tool based on VDM++ Specification");
 			System.out.println("Version : 2.0");
-			System.out.println("Built date : 2018-1-15 AM4:53(JST)");
+			System.out.println("Built date : " + buildDate);
 			System.out.println("Copyright (C) 2018, Hiroki Tachiyama (University of Miyazaki).");
 			System.exit(0);
 		}
@@ -135,22 +141,17 @@ public class BwdmMain {
 		if (showHelp) {
 			System.out.println("書式: bwdm [-vhaibsf] [file_name]\n");
 			System.out.println("オプション一覧");
-
-			System.out.println();
 			System.out.println("追加表示");
 			System.out.println("-a : 境界値分析で生成した境界値を表示");
 			System.out.println("-i : 記号実行で生成した条件式を表示");
-
 			System.out.println();
 			System.out.println("テストケース絞り込み");
 			System.out.println("-b : 境界値分析によるテストケースのみ出力");
 			System.out.println("-s : 記号実行によるテストケースのみ出力");
-
 			System.out.println();
 			System.out.println("出力先");
-			System.out.println("-f : テキストファイル<file_name.txt>に書出\n" +
+			System.out.println("-f : テキストファイル<file_name.tc>に書出\n" +
 					"     デフォルト：コンソール表示");
-
 			System.out.println();
 			System.out.println("その他");
 			System.out.println("-v : バージョン表示");
@@ -183,7 +184,7 @@ public class BwdmMain {
 		String buf = "";
 
 		//1 諸情報
-		buf += "ファイルパス : " + extractInformation.getVdmFilePath() + "\n";
+		buf += "ファイルパス : " + new File(vdmPath).getCanonicalPath() + "\n";
 		buf += "関数名 : " + extractInformation.getFunctionName() + "\n";
 		buf += "引数 : ";
 		for(int i=0; i<extractInformation.getArgumentTypes().size(); i++) {
@@ -300,7 +301,5 @@ public class BwdmMain {
 		if(optionStr.equals("")) return true;
 		else                     return false;
 	}
-
-
 
 }
