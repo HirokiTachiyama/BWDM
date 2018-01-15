@@ -148,8 +148,8 @@ public class BwdmMain {
 
 			System.out.println();
 			System.out.println("出力先");
-			System.out.println("-f : テキストファイル<file_name.txt>に書出\n" +
-					"     デフォルト：コンソール表示");
+			System.out.println("-f : テキストファイル<file_name.txt>に書出");
+			System.out.println("     デフォルト：コンソール表示");
 
 			System.out.println();
 			System.out.println("その他");
