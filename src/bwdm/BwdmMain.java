@@ -10,15 +10,13 @@ import com.fujitsu.vdmj.syntax.ParserException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class BwdmMain {
 
 
-	private static String buildDate = "2018-1-15 PM22:20(JST)";
+	private static String buildDate = "2018-1-16 PM19:25(JST)";
 
 
 	public static void main(String[] args) throws LexException, ParserException, IOException {
@@ -186,12 +184,13 @@ public class BwdmMain {
 		//1 諸情報
 		buf += "ファイルパス : " + new File(vdmPath).getCanonicalPath() + "\n";
 		buf += "関数名 : " + extractInformation.getFunctionName() + "\n";
-		buf += "引数 : ";
+		buf += "引数の型 : ";
 		for(int i=0; i<extractInformation.getArgumentTypes().size(); i++) {
 			buf += extractInformation.getParameters().get(i) + ":"
 					+ extractInformation.getArgumentTypes().get(i) + " ";
 		}
 		buf += "\n";
+		buf += "戻り値の型 : " + extractInformation.getReturnValue() + "\n";
 		int bvTestcaseNum =
 				bvaUnitMain.getBoundaryValueAnalyzer().getInputDataList().size();
 		int seTestcaseNum =
@@ -270,7 +269,7 @@ public class BwdmMain {
 
 		//コンソール表示 or テキスト出力
 		if(displayOnConsole) {
-			System.out.println(buf);
+			System.out.print(buf);
 		} else {
 			File outputFile = new File(extractInformation.getVdmFilePath().replace("vdmpp", "tc"));
 			FileWriter fw = new FileWriter(outputFile);

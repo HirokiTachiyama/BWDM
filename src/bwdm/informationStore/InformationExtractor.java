@@ -1,8 +1,6 @@
 package bwdm.informationStore;
 
 import bwdm.Util;
-import bwdm.informationStore.ConditionAndReturnValueList;
-import bwdm.informationStore.IfElseExprSyntaxTree;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinition;
 import com.fujitsu.vdmj.ast.definitions.ASTDefinitionList;
 import com.fujitsu.vdmj.lex.Dialect;
@@ -53,6 +51,9 @@ public class InformationExtractor {
     //parameter information
     private String parameterBodies; //a*b*c
 	private ArrayList<String> parameters; //a, b, c
+
+	//type of return value
+	private String returnValue;
 
 
 	private String ifExpressionBody;
@@ -109,6 +110,8 @@ public class InformationExtractor {
 					e.printStackTrace();
 				}
 				functionName = tcFunctionDefinition.name.getName();
+				returnValue = tcFunctionDefinition.type.result.toString();
+				//returnValue.replaceAll((,"").replaceAll(")","");
 				TCFunctionType tcFunctionType = tcFunctionDefinition.type;
 				TCTypeList tmp_argumentTypes = tcFunctionType.parameters;
 				TCExpression tcExpression = tcFunctionDefinition.body;
@@ -228,4 +231,5 @@ public class InformationExtractor {
 	public String getFunctionName() { return functionName; }
 	public String getVdmFileName() { return vdmFileName; }
 	public String getVdmFilePath() { return vdmFilePath; }
+	public String getReturnValue() { return returnValue; }
 }
