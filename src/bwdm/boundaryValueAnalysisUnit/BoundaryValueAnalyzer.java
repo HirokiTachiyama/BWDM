@@ -99,29 +99,29 @@ public class BoundaryValueAnalyzer {
 				String right  = ((HashMap<String, String>) condition).get("right");
 				ArrayList bvs = boundaryValueList.get(parameter);
 
-				long bv1=0, bv2=0, value=0;
+				long trueValue=0, falseValue=0, value=0;
 				if(Util.isNumber(left)) {
 					value = Long.parseLong(left);
 					switch (operator) {
-						case "<=":
-							bv1 = value;
-							bv2 = bv1 - 1;
-							break;
 						case "<":
-							bv1 = value + 1;
-							bv2 = bv1 - 1;
+							trueValue = value + 1;
+							falseValue = value;
 							break;
-						case ">=":
-							bv1 = value;
-							bv2 = bv1 + 1;
+						case "<=":
+							trueValue = value;
+							falseValue = value - 1;
 							break;
 						case ">":
-							bv1 = value + 1;
-							bv2 = bv1 + 1;
+							trueValue = value - 1;
+							falseValue = value;
+							break;
+						case ">=":
+							trueValue = value;
+							falseValue = value + 1;
 							break;
 						case "mod":
-							bv1 = value;
-							bv2 = value + 1;
+							trueValue = value;
+							falseValue = value + 1;
 							bvs.add(value - 1);
 							break;
 					}
@@ -129,32 +129,32 @@ public class BoundaryValueAnalyzer {
 				} else if(Util.isNumber(right)) {
 					value = Long.parseLong(right);
 					switch (operator) {
-						case "<=":
-							bv1 = value;
-							bv2 = bv1 + 1;
-							break;
 						case "<":
-							bv1 = value + 1;
-							bv2 = bv1 - 1;
+							trueValue = value - 1;
+							falseValue = value;
 							break;
-						case ">=":
-							bv1 = value;
-							bv2 = bv1 + 1;
+						case "<=":
+							trueValue = value;
+							falseValue = value + 1;
 							break;
 						case ">":
-							bv1 = value + 1;
-							bv2 = bv1 - 1;
+							trueValue = value + 1;
+							falseValue = value;
+							break;
+						case ">=":
+							trueValue = value;
+							falseValue = value - 1;
 							break;
 						case "mod":
-							bv1 = value;
-							bv2 = value + 1;
+							trueValue = value;
+							falseValue = value + 1;
 							bvs.add(value - 1);
 							break;
 					}
 				}
 
-				bvs.add(bv1);
-				bvs.add(bv2);
+				bvs.add(trueValue);
+				bvs.add(falseValue);
 
 			});
 

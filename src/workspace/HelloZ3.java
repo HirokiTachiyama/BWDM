@@ -36,6 +36,29 @@ public class HelloZ3 {
         context.close();
     }
 
+
+	static void solve() {
+		Context ctx = new Context();
+		Solver s = ctx.mkSolver();
+
+		IntExpr a = ctx.mkIntConst("a");
+		IntExpr five = ctx.mkInt(5);
+
+		s.add(ctx.mkLt( a,  five));
+
+		if(s.check() == Status.SATISFIABLE) {
+			System.out.println("SAT");
+			Model model = s.getModel();
+			System.out.println("a = " + model.evaluate(a, false));
+		} else {
+			System.out.println("UNSAT");
+		}
+
+		ctx.close();
+
+	}
+
+
     public static void solve2() {
 		System.out.println("a < b + 5, 10 > a");
 
@@ -131,6 +154,7 @@ public class HelloZ3 {
 
 
 	public static void main(String[] args) {
+    	solve();
 		//solve1();
 		//solve2();
 		//solve3();
