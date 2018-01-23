@@ -120,7 +120,7 @@ public class BoundaryValueAnalyzer {
 							falseValue = value + 1;
 							break;
 						case "mod":
-							trueValue = value;
+							trueValue = value + Long.parseLong(((HashMap<String, String>) condition).get("surplus"));
 							falseValue = value + 1;
 							bvs.add(value - 1);
 							break;
@@ -146,7 +146,7 @@ public class BoundaryValueAnalyzer {
 							falseValue = value - 1;
 							break;
 						case "mod":
-							trueValue = value;
+							trueValue = value + Long.parseLong(((HashMap<String, String>) condition).get("surplus"));
 							falseValue = value + 1;
 							bvs.add(value - 1);
 							break;

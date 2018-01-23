@@ -10,12 +10,12 @@ functions
 sampleFunction : int*nat -> seq of char
 sampleFunction(a, b) ==
     if(b mod 2018 = 0) then
-      if(b < 100) then
+      if(b >= 100) then
         "bは100未満 かつ bは2018で割り切れる"
       else
         "bは100未満 かつ bは2018で割り切れない"
     else
-      if(a < 100) then
+      if(a > 100) then
         "bは100以上 かつ aは100未満"
       else
         "bは100以上 かつ aは100以上";
