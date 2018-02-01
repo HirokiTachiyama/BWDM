@@ -1,0 +1,18 @@
+class Nest
+
+functions
+
+public うるう年判定仕様 : int -> seq of char
+  うるう年判定仕様(年) ==
+    if(年 mod 4 = 0) then
+      if(年 mod 100 = 0) then
+        if(年 mod 400 = 0) then
+          "うるう年"
+        else
+          "平年"
+      else
+        "うるう年"
+    else
+      "平年";
+
+end Nest

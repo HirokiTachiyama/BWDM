@@ -16,12 +16,18 @@ import java.util.HashMap;
 public class BwdmMain {
 
 
-	private static String buildDate = "2018-1-16 PM19:25(JST)";
+	private static String buildDate = "2018-1-24 PM19:03(JST)";
 
 
 	public static void main(String[] args) throws LexException, ParserException, IOException {
+		TimeMeasure tm = new TimeMeasure();
+		tm.start();
 
 		exeBWDM(args);
+
+
+		tm.finish();
+		tm.printResult();
 
 	}
 
@@ -30,8 +36,8 @@ public class BwdmMain {
 
 		/**コマンド引数に応じて、下記の1-5の出力時の情報の表示フラグをON/OFFする**/
 
-		//1 諸情報 ファイルパス、生成したテストケース総数、関数、引数情報  default:ON
-		//boolean showStandardInfo = true;  毎回出すのでフラグは要らなかった
+		//1 諸情報 ファイルパス、生成したテストケース総数、関数、引数情報  default:OFF
+		boolean showStandardInfo = false;
 
 		//2 生成した境界値に関する情報  default:OFF  -a
 		boolean showBvsInfo = false;
@@ -96,6 +102,10 @@ public class BwdmMain {
 					showVersion = true;
 					break;
 				}
+				if (args[0].contains("n")) { //VDM仕様の基本情報を表示
+					showStandardInfo = true;
+				}
+
 				if (args[0].contains("f")) { //ファイル書き出しON コンソール表示は行わない
 					displayOnConsole = false;
 				}
@@ -137,9 +147,10 @@ public class BwdmMain {
 
 		/**ヘルプがONなら、表示して終了**/
 		if (showHelp) {
-			System.out.println("書式: bwdm [-vhaibsf] [file_name]\n");
+			System.out.println("書式: bwdm [-naivhfbs] [file_name]\n");
 			System.out.println("オプション一覧");
 			System.out.println("追加表示");
+			System.out.println("-n : VDM仕様の基本情報を表示する");
 			System.out.println("-a : 境界値分析で生成した境界値を表示");
 			System.out.println("-i : 記号実行で生成した条件式を表示");
 			System.out.println();
@@ -182,22 +193,24 @@ public class BwdmMain {
 		String buf = "";
 
 		//1 諸情報
-		buf += "ファイルパス : " + new File(vdmPath).getCanonicalPath() + "\n";
-		buf += "関数名 : " + extractInformation.getFunctionName() + "\n";
-		buf += "引数の型 : ";
-		for(int i=0; i<extractInformation.getArgumentTypes().size(); i++) {
-			buf += extractInformation.getParameters().get(i) + ":"
-					+ extractInformation.getArgumentTypes().get(i) + " ";
+		if(showStandardInfo) {
+			buf += "ファイルパス : " + new File(vdmPath).getCanonicalPath() + "\n";
+			buf += "関数名 : " + extractInformation.getFunctionName() + "\n";
+			buf += "引数の型 : ";
+			for (int i = 0; i < extractInformation.getArgumentTypes().size(); i++) {
+				buf += extractInformation.getParameters().get(i) + ":"
+						+ extractInformation.getArgumentTypes().get(i) + " ";
+			}
+			buf += "\n";
+			buf += "戻り値の型 : " + extractInformation.getReturnValue() + "\n";
+			int bvTestcaseNum =
+					bvaUnitMain.getBoundaryValueAnalyzer().getInputDataList().size();
+			int seTestcaseNum =
+					seUnitMain.getSe().getInputDataList().size();
+			buf += "生成テストケース数 : " + (bvTestcaseNum + seTestcaseNum) + "件";
+			buf += "(" + "境界値分析:" + bvTestcaseNum + "/記号実行:" + seTestcaseNum + ")";
+			buf += "\n\n";
 		}
-		buf += "\n";
-		buf += "戻り値の型 : " + extractInformation.getReturnValue() + "\n";
-		int bvTestcaseNum =
-				bvaUnitMain.getBoundaryValueAnalyzer().getInputDataList().size();
-		int seTestcaseNum =
-				seUnitMain.getSe().getInputDataList().size();
-		buf += "生成テストケース数 : " + (bvTestcaseNum + seTestcaseNum) + "件";
-		buf += "(" + "境界値分析:" + bvTestcaseNum + "/記号実行:" + seTestcaseNum + ")";
-		buf += "\n\n";
 
 		//2 境界値情報
 		if(showBvsInfo) {
@@ -224,7 +237,7 @@ public class BwdmMain {
 			buf += "戻り値の数 : " + carvList.size + "\n";
 
 			for(int i=0; i<carvList.size; i++) {
-				buf += "条件式 : ";
+				buf += "制約 : ";
 				ConditionAndReturnValueList.ConditionAndReturnValue carv =
 						carvList.getConditionAndReturnValues().get(i);
 				ArrayList conditions = carv.getConditions();
@@ -290,6 +303,7 @@ public class BwdmMain {
 
 		optionStr = optionStr.replace("-", "");
 		optionStr = optionStr.replace("v", "");
+		optionStr = optionStr.replace("n", "");
 		optionStr = optionStr.replace("f", "");
 		optionStr = optionStr.replace("b", "");
 		optionStr = optionStr.replace("s", "");

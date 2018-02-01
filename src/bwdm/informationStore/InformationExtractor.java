@@ -150,7 +150,7 @@ public class InformationExtractor {
 				new IfElseExprSyntaxTree(ifExpressionBody);
 
 		conditionAndReturnValueList =
-				new ConditionAndReturnValueList(ifElseExprSyntaxTree.root);
+				new ConditionAndReturnValueList(ifElseExprSyntaxTree.root, this);
 
 	}
 

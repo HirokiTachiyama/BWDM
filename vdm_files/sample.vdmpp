@@ -1,0 +1,20 @@
+class sampleClass
+
+functions
+
+-- arg    a:int, b:nat
+-- return seq of char
+-- 戻り値の文字列には、その行が実行される際に引数aが満たす条件を記述した
+-- ツールの処理と文字列の内容は無関係である
+
+sampleFunction : int*nat -> seq of char
+sampleFunction(a, b) ==
+    if(a < 100) then
+      if(b > 2018) then
+        "aは100未満かつbは2018より大きい"
+      else
+        "aは100未満かつbは2018以下"
+    else
+      "aは100以上";
+
+end sampleClass

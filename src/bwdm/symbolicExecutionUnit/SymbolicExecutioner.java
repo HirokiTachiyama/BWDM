@@ -43,12 +43,12 @@ public class SymbolicExecutioner {
 		ArrayList<Boolean> bools = _conditionAndReturnValue.getBools();
 
 		BoolExpr conditionUnion = ctx.mkBool(Boolean.TRUE); //単位元としてTRUEの式を一つくっつけとく
+		BoolExpr expr;
 		for(int i=0; i<conditions.size(); i++) {
 			HashMap<String, String> parsedCondition = makeParsedCondition(conditions.get(i));
 			Boolean bool = bools.get(i);
 			String operator = parsedCondition.get("operator");
 
-			BoolExpr expr;
 			if (operator.equals("mod")) { //剰余式
 				expr = makeModExpr(
 						parsedCondition.get("left"),
@@ -67,13 +67,25 @@ public class SymbolicExecutioner {
 
 			conditionUnion = ctx.mkAnd(conditionUnion, expr);
 		}
+		expr = null;
+		ArrayList<String> parameters = ie.getParameters();
+		ArrayList<String> argumentTypes = ie.getArgumentTypes();
+
+		for(int i=0; i<parameters.size(); i++) {
+			if (!argumentTypes.get(i).equals("int")) { //int型なら0以上の制限はいらない
+				expr = makeInequalityExpr(parameters.get(i), ">", "0", true);
+			}
+		}
+		if(expr != null) {
+			conditionUnion = ctx.mkAnd(conditionUnion, expr);
+		}
 
 		Solver solver = ctx.mkSolver();
 		solver.add(conditionUnion);
 		if(solver.check() == Status.SATISFIABLE) {
 			Model m = solver.getModel();
 
-			ArrayList<String> parameters = ie.getParameters();
+			parameters = ie.getParameters();
 			HashMap<String, String> hm = new HashMap();
 			parameters.forEach(p -> {
 				hm.put(p, m.evaluate(ctx.mkIntConst(p), false).toString());
