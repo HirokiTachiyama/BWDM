@@ -1,5 +1,0 @@
-BWDM (Boundary Values/VDM)
-Automatic Testcase Generation Tool based on VDM++ Specification
-Version : 2.0
-Built date : 2018-1-16 PM19:25(JST)
-Copyright (C) 2018, Hiroki Tachiyama (University of Miyazaki).

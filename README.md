@@ -21,12 +21,13 @@
   * Command-line options are also available (below table).
 
 
-| Option        | Content          |
-| --------------- |:---------------|
-| -a | Info. of BVA                  |
-| -i | Info. of Symbolic Exe.        |
-| -b | Hide testcase made by Symbolic Exe. |
-| -s | Hide testcase made by BVA  |
+| Option | Content |
+| --- |:---|
+| -n | Basically Info. |
+| -a | Info. of BVA |
+| -i | Info. of Symbolic Exe.  |
+| -b | Output ONLY testcases of BVA |
+| -s | Output OHLY testcases of Symbolic Exe. |
 | -f | Output testcase into a file (default:display on console)|
 | -v | Version |
 | -h | Help |
